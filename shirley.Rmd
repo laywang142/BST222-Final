@@ -13,6 +13,8 @@ data(bfeed)
 
 data visualization
 
+hello
+
 KM curve
 
 check for stratification
