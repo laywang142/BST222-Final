@@ -1,0 +1,66 @@
+---
+title: "final project"
+author: "elsie,laura, shierly"
+date: "11/28/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#eda
+
+
+```
+
+
+```{r}
+
+
+#eda tables
+```
+
+
+```{r}
+
+#km curves
+```
+
+
+```{r}
+#model
+
+
+#model criterial / assesment
+```
+
+
+```{r}
+
+#aic
+#stepAIC()
+
+#drop1
+
+
+
+#new model
+
+
+```
+
+
+
+```{r}
+
+#model diagnostics
+```
+
+
+```{r}
+
+
+```
+
