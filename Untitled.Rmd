@@ -1,0 +1,18 @@
+---
+title: "shirley"
+author: "Shirley Lin"
+date: "2023-11-28"
+output: html_document
+---
+
+```{r}
+library(KMsurv)
+### We're using Bfeed from KMsurv
+data(bfeed)
+```
+
+data visualization
+
+KM curve
+
+check for stratification
