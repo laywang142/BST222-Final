@@ -1,0 +1,27 @@
+---
+title: "BST 222 : Final Project EDA"
+author: "Laura Wang"
+output: 
+  pdf_document:
+header-includes:
+  - \newcommand{\gt}{>} 
+  - \newcommand{\lt}{<}
+  - \usepackage{enumitem}
+  - \usepackage{float}
+  - \usepackage{geometry}
+  - \floatplacement{figure}{H}
+urlcolor: blue
+classoption: onecolumn
+geometry: "left=3cm,right=3cm,top=2cm,bottom=2cm"
+---
+
+```{r include=FALSE}
+library(dplyr)
+library(kableExtra)
+library(knitr)
+library(KMsurv)
+library(survival)
+library(ggplot2)
+library(survminer)
+library(muhaz)
+```
