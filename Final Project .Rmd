@@ -10,11 +10,167 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
+library(KMsurv)
+bfeed<-data(bfeed)
+```
+
+```{r}
+par(mfrow=c(1,2)) 
+
+
+
+# Boxplot for Breastfeeding Duration by Poverty
+boxplot(bfeed$duration ~ bfeed$poverty, 
+        main="Breastfeeding Duration by Poverty", 
+        ylab="Duration (weeks)", 
+        xlab="Poverty", 
+        col=c("lightblue", "salmon"),
+        names=c(" ", " "),
+        main.cex=0.1)
+legend("topright", legend=c("Not in Poverty", "In Poverty"), fill=c("lightblue", "salmon"), cex=0.8)
+
+# Boxplot for Breastfeeding Duration by Smoking
+boxplot(bfeed$duration ~ bfeed$smoke, 
+        main="Breastfeeding Duration by Smoking", 
+        ylab="Duration (weeks)", 
+        xlab="Smoke", 
+        col=c("lightgreen", "yellow"),
+        names=c(" ", " "),
+        main.cex=0.8)
+legend("topright", legend=c("Non-Smoker", "Smoker"), fill=c("lightgreen", "yellow"), cex=0.8)
+
+# Boxplot for Breastfeeding Duration by Alcohol Use
+boxplot(bfeed$duration ~ bfeed$alcohol, 
+        main="Breastfeeding Duration by Alcohol Use", 
+        ylab="Duration (weeks)", 
+        xlab="Alcohol", 
+        col=c("pink", "gray"),
+        names=c(" ", " "), 
+        main.cex=0.1)
+legend("topright", legend=c("No Alcohol", "Alcohol Use"), fill=c("pink", "gray"), cex=0.8)
+
+# Boxplot for Breastfeeding Duration by Prenatal Care
+boxplot(bfeed$duration ~ bfeed$pc3mth, 
+        main="Breastfeeding Duration by Prenatal Care", 
+        ylab="Duration (weeks)", 
+        xlab="Prenatal Care after 3rd Month", 
+        col=c("orange", "purple"),
+        main.cex=0.8,
+        names=c(" ", " ") )
+legend("topright", legend=c("No Prenatal Care", "Prenatal Care"), fill=c("orange", "purple"), cex=0.8)
+
+
+```
+
+
+```{r}
 #eda
-#tessst
 
 
-#test2
+
+plot(bfeed$agemth, bfeed$duration, main="Scatter Plot of Age vs. Breastfeeding Duration", xlab="Mother's Age", ylab="Breastfeeding Duration (weeks)", pch=19, col="blue")
+
+plot(density(bfeed$agemth, na.rm = TRUE), main="Density Plot of Mother's Age", xlab="Mother's Age", ylab="Density", col="blue", lwd=2)
+
+plot(density(bfeed$duration, na.rm = TRUE), main="Density Plot of Breastfeeding Duration", xlab="Duration (weeks)", ylab="Density", col="green", lwd=2)
+```
+
+
+```{r}
+# Plot the first histogram (for white)
+hist(bfeed$duration[bfeed$race == 1], 
+     main="Breastfeeding Duration by Race", 
+
+     xlim=range(bfeed$duration), 
+     col=rgb(0, 0, 1, 0.5),  # Light blue with transparency
+     xlab="Breastfeeding Duration (weeks)", 
+     ylab="Frequency")
+
+# Add the second histogram (for black)
+hist(bfeed$duration[bfeed$race == 2], 
+     col=rgb(1, 0, 0, 0.5),  # Red with transparency
+     add=T)  # Add to the existing plot
+
+# Add the third histogram (for other)
+hist(bfeed$duration[bfeed$race == 3], 
+     col=rgb(0, 1, 0, 0.5),  # Green with transparency
+     add=T)  # Add to the existing plot
+
+# Add a legend
+legend("topright", 
+       legend=c("White", "Black", "Other"), 
+       fill=c(rgb(0, 0, 1, 0.5), rgb(1, 0, 0, 0.5), rgb(0, 1, 0, 0.5)))
+
+
+```
+
+
+```{r}
+
+
+plot(density(bfeed$agemth[bfeed$race == 1], na.rm = TRUE), main="Density Plot of Mother's Age by Race", xlab="Mother's Age", ylab="Density", col="lightblue", lwd=2)
+lines(density(bfeed$agemth[bfeed$race == 2], na.rm = TRUE), col="salmon", lwd=2)
+lines(density(bfeed$agemth[bfeed$race == 3], na.rm = TRUE), col="lightgreen", lwd=2)
+legend("topright", legend=c("White", "Black", "Other"), col=c("lightblue", "salmon", "lightgreen"), lwd=2)
+
+
+```
+
+
+
+```{r}
+# Create a table for breastfeeding completion by race
+race_completion_table <- table(bfeed$delta, bfeed$race)
+# Barplot with descriptive x-axis labels
+barplot(race_completion_table, 
+        main="Breastfeeding Completion by Race", 
+        xlab="Race", 
+        ylab="Count", 
+        beside=FALSE, 
+        col=c("lightblue", "salmon"), 
+        legend=c("Not Completed", "Completed"),
+        names.arg=c("White", "Black", "Other"))
+
+```
+```{r}
+boxplot(bfeed$duration ~ bfeed$yschool, 
+        main="Breastfeeding Duration by Mother's Education Level", 
+        xlab="Years of Schooling", 
+        ylab="Breastfeeding Duration (weeks)", 
+        col="lightgreen")
+
+plot(bfeed$yschool, bfeed$duration, 
+     main="Breastfeeding Duration vs. Mother's Education Level", 
+     xlab="Years of Schooling", 
+     ylab="Breastfeeding Duration (weeks)", 
+     pch=19, 
+     col="lightgreen")
+
+barplot(prop.table(table(bfeed$delta, bfeed$yschool), 2), 
+        main="Proportion of Breastfeeding Completion by Education Level", 
+        xlab="Years of Schooling", 
+        ylab="Proportion", 
+        col=c("lightgreen", "pink"), 
+        legend=c("Not Completed", "Completed"), 
+        beside=FALSE)
+```
+
+
+```{r}
+
+# Box Plot of Education Level by Breastfeeding Completion
+boxplot(bfeed$yschool ~ bfeed$delta, 
+        main="Education Level by Breastfeeding Completion", 
+        ylab="Years of Schooling", 
+        xlab="Breastfeeding Completed",
+        col=c("lightcoral", "lightblue"),
+        names=c(" ", " ")) 
+
+# Adding a legend
+legend("bottomleft", 
+       legend=c("Not Completed", "Completed"), 
+       fill=c("lightcoral", "lightblue"))
+
 ```
 
 
