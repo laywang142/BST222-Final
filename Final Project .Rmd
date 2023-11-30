@@ -12,13 +12,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(KMsurv)
 library(dplyr)
-bfeed<-data(bfeed)
+data(bfeed)
 ```
 
 ```{r}
 par(mfrow=c(1,2)) 
-
-
 
 # Boxplot for Breastfeeding Duration by Poverty
 boxplot(bfeed$duration ~ bfeed$poverty, 
