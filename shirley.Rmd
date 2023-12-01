@@ -32,6 +32,7 @@ df <- bfeed %>%
 
 str(df)
 
+
 # survival object
 surv <- Surv(df$duration, df$delta)
 ```
@@ -148,10 +149,9 @@ AIC(cox5)
 drop1(cox5)
 
 # remove poverty
-cox6 <- coxph(surv ~ race+smoke+poverty*yschool, data=df)
+cox6 <- coxph(surv ~ race+smoke, data=df)
 summary(cox6)
 AIC(cox6)
 drop1(cox6)
-
 ```
 
