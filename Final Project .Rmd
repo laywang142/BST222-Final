@@ -18,15 +18,16 @@ data(bfeed)
 ```{r}
 par(mfrow=c(1,2)) 
 
+
+
 # Boxplot for Breastfeeding Duration by Poverty
 boxplot(bfeed$duration ~ bfeed$poverty, 
         main="Breastfeeding Duration by Poverty", 
         ylab="Duration (weeks)", 
         xlab="Poverty", 
         col=c("lightblue", "salmon"),
-        names=c(" ", " "),
-        main.cex=0.1)
-legend("topright", legend=c("Not in Poverty", "In Poverty"), fill=c("lightblue", "salmon"), cex=0.8)
+        names=c("Not in Poverty", "In Poverty"),
+        cex.main=0.9) # 
 
 # Boxplot for Breastfeeding Duration by Smoking
 boxplot(bfeed$duration ~ bfeed$smoke, 
@@ -34,9 +35,8 @@ boxplot(bfeed$duration ~ bfeed$smoke,
         ylab="Duration (weeks)", 
         xlab="Smoke", 
         col=c("lightgreen", "yellow"),
-        names=c(" ", " "),
-        main.cex=0.8)
-legend("topright", legend=c("Non-Smoker", "Smoker"), fill=c("lightgreen", "yellow"), cex=0.8)
+        names=c("Non-Smoker", "Smoker"),
+        cex.main=0.9) # 
 
 # Boxplot for Breastfeeding Duration by Alcohol Use
 boxplot(bfeed$duration ~ bfeed$alcohol, 
@@ -44,9 +44,8 @@ boxplot(bfeed$duration ~ bfeed$alcohol,
         ylab="Duration (weeks)", 
         xlab="Alcohol", 
         col=c("pink", "gray"),
-        names=c(" ", " "), 
-        main.cex=0.1)
-legend("topright", legend=c("No Alcohol", "Alcohol Use"), fill=c("pink", "gray"), cex=0.8)
+        names=c("No Alcohol", "Alcohol Use"),
+        cex.main=0.9) # 
 
 # Boxplot for Breastfeeding Duration by Prenatal Care
 boxplot(bfeed$duration ~ bfeed$pc3mth, 
@@ -54,9 +53,8 @@ boxplot(bfeed$duration ~ bfeed$pc3mth,
         ylab="Duration (weeks)", 
         xlab="Prenatal Care after 3rd Month", 
         col=c("orange", "purple"),
-        main.cex=0.8,
-        names=c(" ", " ") )
-legend("topright", legend=c("No Prenatal Care", "Prenatal Care"), fill=c("orange", "purple"), cex=0.8)
+        names=c("No Prenatal Care", "Prenatal Care"),
+        cex.main=0.9, cex.axis=.8) # 
 
 
 ```
