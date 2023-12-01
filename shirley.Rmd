@@ -24,7 +24,7 @@ df <- bfeed %>%
          smoke = factor(smoke, levels = c(1,0), labels = c("yes", "no")),
          alcohol = factor(alcohol, levels = c(1,0), labels = c("yes", "no")),
          pc3mth = factor(pc3mth, levels = c(1,0), labels = c("yes", "no")),
-         yschool = case_when(yschool < 12 ~ "noHS",
+        yschool = case_when(yschool < 12 ~ "noHS",
                              yschool == 12 ~ "HSgrad", 
                              yschool > 12 ~ "someCollege") %>% 
            factor(levels = c("noHS", "HSgrad", "someCollege"))
@@ -140,5 +140,18 @@ cox4 <- coxph(surv ~ race+poverty+smoke+yschool, data=df)
 summary(cox4)
 AIC(cox4)
 drop1(cox4)
+
+# remove yschool
+cox5 <- coxph(surv ~ race+poverty+smoke, data=df)
+summary(cox5)
+AIC(cox5)
+drop1(cox5)
+
+# remove poverty
+cox6 <- coxph(surv ~ race+smoke+poverty*yschool, data=df)
+summary(cox6)
+AIC(cox6)
+drop1(cox6)
+
 ```
 
