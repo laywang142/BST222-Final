@@ -153,5 +153,35 @@ drop1(coxe)
 
 ```
 
+```{r}
+#laura's work
+cox.zph(cox1)
+
+cox_1 <- coxph(surv ~ race + poverty + smoke + yschool, data = df)
+summary(cox_1)
+AIC(cox_1)
+cox.zph(cox_1)
+
+
+cox_2 <- coxph(surv ~ race + poverty + smoke + strata(yschool), data=df)
+summary(cox_2)
+AIC(cox_2)
+cox.zph(cox_2)
+
+fit.strat <- cox_2
+fit.grp1 <- coxph(surv ~ race + poverty + smoke, subset=(yschool=="noHS"), data=df)
+fit.grp2 <- coxph(surv ~ race + poverty + smoke, subset=(yschool=="HSgrad"), data=df)
+fit.grp3 <- coxph(surv ~ race + poverty + smoke, subset=(yschool=="someCollege"), data=df)
+
+LL.strat <- fit.strat$loglik[2]
+LL.unstrat <- fit.grp1$loglik[2] + fit.grp2$loglik[2] + fit.grp3$loglik[2]
+    
+X2 <- -2*(LL.strat - LL.unstrat)
+n_groups <- length( unique(df$yschool) )
+n_params <- length( fit.strat$coef )
+p_val <- 1 - pchisq(X2, df=(n_groups-1)*n_params)
+
+#stratifying doesn't really significantly improve the model tho
+```
 
 
