@@ -19,7 +19,7 @@ df <- bfeed %>%
   mutate(race = case_when(race == 1 ~ "white",
                           race == 2 ~ "black", 
                           race == 3 ~ "other") %>% 
-           factor(levels = c("white", "black", "other"), ordered = T),
+           factor(levels = c("white", "black", "other"), ordered = F),
          poverty = factor(poverty, levels = c(1,0), labels = c("yes", "no")),
          smoke = factor(smoke, levels = c(1,0), labels = c("yes", "no")),
          alcohol = factor(alcohol, levels = c(1,0), labels = c("yes", "no")),
@@ -27,7 +27,7 @@ df <- bfeed %>%
          yschool = case_when(yschool < 12 ~ "noHS",
                              yschool == 12 ~ "HSgrad", 
                              yschool > 12 ~ "someCollege") %>% 
-           factor(levels = c("noHS", "HSgrad", "someCollege"), ordered = T)
+           factor(levels = c("noHS", "HSgrad", "someCollege"), ordered = F)
          )
 
 str(df)
@@ -39,7 +39,7 @@ surv <- Surv(df$duration, df$delta)
 
 ### data visualization
 ```{r}
-hist(df$yschool)
+#barplot(df$yschool)
 ```
 
 
@@ -51,6 +51,8 @@ KM for race
 KMcurves_race <- survfit(surv ~ race, data = df)
 plot(KMcurves_race, col = 1:3, main = "KM Curves for Races")
 legend("topright", legend = c("White", "Black", "Other"), col = 1:3, lty = 1)
+
+survdiff(surv ~ race, data = df) #different processes
 ```
 some crossings
 
@@ -60,6 +62,8 @@ KM for poverty
 KMcurves_poverty <- survfit(surv ~ poverty, data = df)
 plot(KMcurves_poverty, col = 1:2, main = "KM Curves for Poverty")
 legend("topright", legend = c("Yes", "No"), col = 1:2, lty = 1)
+
+survdiff(surv ~ poverty, data = df) #no difference
 ```
 have apparent crossings
 
@@ -74,6 +78,8 @@ KM for smoke
 KMcurves_smoke <- survfit(surv ~ smoke, data = df)
 plot(KMcurves_smoke, col = 1:2, main = "KM Curves for Smoke")
 legend("topright", legend = c("Yes", "No"), col = 1:2, lty = 1)
+
+survdiff(surv ~ smoke, data = df) #different processes
 ```
 no apparent crossing
 
@@ -83,6 +89,8 @@ KM for alcohol
 KMcurves_alcohol <- survfit(surv ~ alcohol, data = df)
 plot(KMcurves_alcohol, col = 1:2, main = "KM Curves for Alcohol")
 legend("topright", legend = c("Yes", "No"), col = 1:2, lty = 1)
+
+survdiff(surv ~ alcohol, data = df) #not different
 ```
 no apparent crossings
 
@@ -93,6 +101,8 @@ KM for yschool
 KMcurves_yschool <- survfit(surv ~ yschool, data = df)
 plot(KMcurves_yschool, col = 1:3, main = "KM Curves for Education")
 legend("topright", legend = c("noHS", "HSgrad", "comeCollege"), col = 1:3, lty = 1)
+
+survdiff(surv ~ yschool, data = df) #some difference
 ```
 no apparent crossing
 
@@ -102,6 +112,8 @@ KM for pc3mth
 KMcurves_pc3mth <- survfit(surv ~ pc3mth, data = df)
 plot(KMcurves_pc3mth, col = 1:2, main = "KM Curves for Prenatal Care")
 legend("topright", legend = c("Yes", "No"), col = 1:2, lty = 1)
+
+survdiff(surv ~ pc3mth, data = df) #no difference
 ```
 have apparent crossings
 
@@ -153,6 +165,17 @@ cox8 <- coxph(surv ~ race+yschool+smoke+strata(poverty)+strata(pc3mth), data=df)
 summary(cox8)
 AIC(cox8)
 drop1(cox8)
+BIC(cox8)
+
+#cox.zph
+sapply(1:8, function(x) {
+  cox.zph(get(paste0("cox", x)))
+})
+
+#cox.zph
+sapply(1:8, function(x) {
+  cox.zph(get(paste0("cox", x)))
+})
 
 ```
 
