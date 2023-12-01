@@ -146,6 +146,12 @@ summary(coxd)
 AIC(coxd)
 drop1(coxd)
 
+# remove alcohol
+coxe <- coxph(surv ~ race*yschool+smoke+strata(poverty)+strata(pc3mth), data=df)
+summary(coxe)
+AIC(coxe)
+drop1(coxe)
+
 ```
 
 
