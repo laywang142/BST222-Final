@@ -94,6 +94,10 @@ legend("topright", legend = c("Yes", "No"), col = 1:2, lty = 1)
 have apparent crossings
 
 
+
+
+
+
 ### Model Building
 
 ```{r}
@@ -102,86 +106,39 @@ cox1 <- coxph(surv ~ race+poverty+smoke+alcohol+agemth+yschool+pc3mth, data=df)
 summary(cox1)
 AIC(cox1)
 drop1(cox1)
+```
 
 
-# add 2 strata
-cox2 <- coxph(surv ~ race+smoke+alcohol+agemth+yschool+strata(poverty)+strata(pc3mth), data=df)
+```{r}
+# Schoenfeld Residuals, test PH assumption
+bfeed.zph <- cox.zph(cox1)
+print(bfeed.zph)
+plot(bfeed.zph[1], main = "Schoenfeld Residuals for Race")
+
+par(mfrow = c(2,2))
+plot(bfeed.zph)
+```
+no obvious deviation
+
+```{r}
+# remove pc3mthno
+cox2 <- coxph(surv ~ race+poverty+smoke+alcohol+agemth+yschool, data=df)
 summary(cox2)
 AIC(cox2)
 drop1(cox2)
 
+
 # remove agemth
-cox3 <- coxph(surv ~ race+smoke+alcohol+yschool+strata(poverty)+strata(pc3mth), data=df)
+cox3 <- coxph(surv ~ race+poverty+smoke+alcohol+yschool, data=df)
 summary(cox3)
 AIC(cox3)
 drop1(cox3)
 
+
 # remove alcohol
-cox4 <- coxph(surv ~ race+smoke+yschool+strata(poverty)+strata(pc3mth), data=df)
+cox4 <- coxph(surv ~ race+poverty+smoke+yschool, data=df)
 summary(cox4)
 AIC(cox4)
 drop1(cox4)
-
-
-# check interaction
-coxa <- coxph(surv ~ race*smoke*alcohol*agemth*yschool+strata(poverty)+strata(pc3mth), data=df)
-summary(coxa)
-AIC(coxa)
-
-# remove non-significant interactions
-coxb <- coxph(surv ~ race*smoke*alcohol*agemth*yschool+strata(poverty)+strata(pc3mth), data=df)
-summary(coxb)
-AIC(coxb)
-
-# remove agemth
-coxc <- coxph(surv ~ race*alcohol*yschool+smoke+strata(poverty)+strata(pc3mth), data=df)
-summary(coxc)
-AIC(coxc)
-drop1(coxc)
-
-
-coxd <- coxph(surv ~ race*yschool+alcohol+smoke+strata(poverty)+strata(pc3mth), data=df)
-summary(coxd)
-AIC(coxd)
-drop1(coxd)
-
-# remove alcohol
-coxe <- coxph(surv ~ race*yschool+smoke+strata(poverty)+strata(pc3mth), data=df)
-summary(coxe)
-AIC(coxe)
-drop1(coxe)
-
 ```
-
-```{r}
-#laura's work
-cox.zph(cox1)
-
-cox_1 <- coxph(surv ~ race + poverty + smoke + yschool, data = df)
-summary(cox_1)
-AIC(cox_1)
-cox.zph(cox_1)
-
-
-cox_2 <- coxph(surv ~ race + poverty + smoke + strata(yschool), data=df)
-summary(cox_2)
-AIC(cox_2)
-cox.zph(cox_2)
-
-fit.strat <- cox_2
-fit.grp1 <- coxph(surv ~ race + poverty + smoke, subset=(yschool=="noHS"), data=df)
-fit.grp2 <- coxph(surv ~ race + poverty + smoke, subset=(yschool=="HSgrad"), data=df)
-fit.grp3 <- coxph(surv ~ race + poverty + smoke, subset=(yschool=="someCollege"), data=df)
-
-LL.strat <- fit.strat$loglik[2]
-LL.unstrat <- fit.grp1$loglik[2] + fit.grp2$loglik[2] + fit.grp3$loglik[2]
-    
-X2 <- -2*(LL.strat - LL.unstrat)
-n_groups <- length( unique(df$yschool) )
-n_params <- length( fit.strat$coef )
-p_val <- 1 - pchisq(X2, df=(n_groups-1)*n_params)
-
-#stratifying doesn't really significantly improve the model tho
-```
-
 
