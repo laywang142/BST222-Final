@@ -56,15 +56,35 @@ survival <- Surv(time = bfeed$duration, event = bfeed1$delta)
 
 ```{r}
 bfeed1 %>% 
-  tbl_summary(include = c(race, yschool, poverty, alcohol, smoke, pc3mth)) %>% 
-  modify_header(label = "**bfeed Summary**") %>% 
+  tbl_summary(include = c(duration, delta), 
+              type = all_continuous() ~ "continuous2",
+              statistic = all_continuous() ~ c("{mean}", "{median}", "{min}-{max}"),
+              label = list(duration = "duration (weeks)",
+                           delta = "delta (=1)"))%>% 
+  modify_header(label = "**bfeed Outcome Summary**") %>% 
   #modify_caption("\\label{tab:tab2}Summary of Data by Treatment Type") %>% 
   as_kable_extra(format = "latex", booktabs = T,
-                 caption = "\\label{tab:tab2}Summary of Data by Outcome") %>% 
+                 caption = "\\label{tab:tab1}Summary of Data Outcome") %>% 
   kable_styling(latex_options = c("striped", "HOLD_position"), 
                     full_width = F
                     )
 ```
+
+```{r}
+bfeed1 %>% 
+  tbl_summary(include = c(race, yschool, poverty, alcohol, smoke, agemth, pc3mth),
+              type = all_continuous() ~ "continuous2",
+              statistic = list(all_continuous() ~ c("{mean} ({sd})"),
+                               all_categorical() ~ c("{n} ({p}%)"))) %>% 
+  modify_header(label = "**bfeed Variable Summary**") %>% 
+  #modify_caption("\\label{tab:tab2}Summary of Data by Treatment Type") %>% 
+  as_kable_extra(format = "latex", booktabs = T,
+                 caption = "\\label{tab:tab2}Summary of Data by Variable") %>% 
+  kable_styling(latex_options = c("striped", "HOLD_position"), 
+                    full_width = F
+                    )
+```
+
 
 ```{r}
 #base KM curve
@@ -94,7 +114,7 @@ plot(timevec,cumhaz1,type="l",ylab="Cumulative Hazard",xlab="Time",ylim=c(0,8))
 title("Cumulative Hazard for the Breastfeeding")
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 #full model with everything
 cox1 <- coxph(surv ~ race+poverty+smoke+alcohol+agemth+yschool+pc3mth, data=df)
 summary(cox1)
@@ -116,7 +136,7 @@ AIC(cox10)
 BIC(cox10)
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 mod_compare <- data.frame(
   AIC = sapply(1:8, function(x) { AIC(get(paste0("cox", x)))}),
   BIC = sapply(1:8, function(x) { BIC(get(paste0("cox", x)))}),
@@ -124,7 +144,7 @@ mod_compare <- data.frame(
 )
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 plot_schoen <- function(obj) {
     
     nam <- obj[["table"]] %>% rownames()
@@ -147,7 +167,7 @@ plot_schoen <- function(obj) {
 
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 cox8.zph <- cox.zph(cox8)
 plot_schoen(cox8.zph)
 ```
