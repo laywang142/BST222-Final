@@ -42,10 +42,10 @@ bfeed1 <- bfeed %>%
          smoke = factor(smoke, levels = c(1,0), labels = c("yes", "no")),
          alcohol = factor(alcohol, levels = c(1,0), labels = c("yes", "no")),
          pc3mth = factor(pc3mth, levels = c(1,0), labels = c("yes", "no")),
-         yschool = case_when(yschool < 12 ~ "noHS",
-                             yschool == 12 ~ "HSgrad", 
-                             yschool > 12 ~ "someCollege") %>% 
-           factor(levels = c("noHS", "HSgrad", "someCollege"), ordered = F)
+         # yschool = case_when(yschool < 12 ~ "noHS",
+         #                     yschool == 12 ~ "HSgrad", 
+         #                     yschool > 12 ~ "someCollege") %>% 
+         #   factor(levels = c("noHS", "HSgrad", "someCollege"), ordered = F)
          )
 
 str(bfeed1)
@@ -171,6 +171,27 @@ plot_schoen <- function(obj) {
 cox8.zph <- cox.zph(cox8)
 plot_schoen(cox8.zph)
 ```
+
+```{r}
+mod1 <- mod1 <- coxph(survival ~ clinic + prison + methadone, data = addicts)
+
+```
+
+```{r}
+#fit martingale for full model
+mod1.mart <- residuals(mod1,type="martingale")
+
+#find cox-snell residuals: martingales subtracted from event indicator
+mod1.cs <- addicts$status - mod1.mart
+
+#cumulative hazard of CS residuals
+surv.csr <- survfit(Surv(mod1.cs,addicts$status)~1,type="fleming-harrington")
+
+plot(surv.csr,fun="cumhaz")
+abline(0,1)
+title("Cumulative Hazard of Cox-Snell Residuals")
+```
+
 
 
 
