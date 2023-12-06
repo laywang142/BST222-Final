@@ -230,13 +230,10 @@ print(result2)
 ```
 
 
-```{r}
-
-```
 
 ```{r}
 none_mod <- coxph(surv~1, data=df) ##model with only intercept
-full_mod <- coxph(surv~race*poverty*smoke, data=df) ##first order model with 9 predictors 
+full_mod <- coxph(surv~race*poverty*smoke, data=df) ##first order model with 3 predictors 
 library(MASS)
 
 #forward+backward selection based on AIC: 
