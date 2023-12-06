@@ -233,11 +233,11 @@ print(result2)
 
 ```{r}
 none_mod <- coxph(surv~1, data=df) ##model with only intercept
-full_mod <- coxph(surv~race*poverty*smoke, data=df) ##first order model with 3 predictors 
+full_mod <- coxph(surv~race*poverty*smoke*alcohol*agemth*yschool*pc3mth, data=df) ##first order model with all predictors 
 library(MASS)
 
 #forward+backward selection based on AIC: 
-stepAIC(none_mod, scope=list(upper=full_mod, lower = ~1), direction="both", k=2, trace = TRUE)
+stepAIC(none_mod, scope=list(upper=full_mod, lower = ~1), direction="both", k=2, trace = FALSE)
 ```
 
 ```{r}
@@ -263,5 +263,25 @@ print(result4)
 
 
 # does not work, I want to cry
+```
+
+
+```{r}
+library(vcd)
+# Create a contingency table
+conting <- table(df$race, df$smoke)
+# Calculate Cramér's V
+cramer_v <- assocstats(conting)$cramer
+# Print the result
+print(cramer_v)   ## high assocation!!!
+
+
+
+# Create a contingency table
+conting2 <- table(df$race, df$poverty)
+# Calculate Cramér's V
+cramer_v2 <- assocstats(conting2)$cramer
+# Print the result
+print(cramer_v2)
 ```
 
