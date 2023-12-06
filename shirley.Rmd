@@ -110,16 +110,6 @@ drop1(cox1)
 ```
 
 
-```{r}
-# Schoenfeld Residuals, test PH assumption
-bfeed.zph <- cox.zph(cox1)
-print(bfeed.zph)
-plot(bfeed.zph[1], main = "Schoenfeld Residuals for Race")
-
-par(mfrow = c(2,2))
-plot(bfeed.zph)
-```
-no obvious deviation
 
 ```{r}
 # remove pc3mthno
@@ -143,9 +133,11 @@ AIC(cox4)
 drop1(cox4)
 
 # remove yschool
+# best final model!!!
 cox5 <- coxph(surv ~ race+poverty+smoke, data=df)
 summary(cox5)
 AIC(cox5)
+BIC(cox5)
 drop1(cox5)
 
 # remove poverty
@@ -153,5 +145,126 @@ cox6 <- coxph(surv ~ race+smoke, data=df)
 summary(cox6)
 AIC(cox6)
 drop1(cox6)
+
+print(summary(cox5))
+```
+
+```{r}
+cox7 <- coxph(surv ~ race*poverty*smoke, data=df)
+summary(cox7)
+AIC(cox7)
+BIC(cox7)
+drop1(cox7)
+```
+
+
+```{r}
+# Schoenfeld Residuals, test PH assumption
+bfeed.zph <- cox.zph(cox5)
+print(bfeed.zph)
+plot(bfeed.zph[1], main = "Schoenfeld Residuals for Race")
+plot(bfeed.zph[2], main = "Schoenfeld Residuals for Poverty Status")
+plot(bfeed.zph[3], main = "Schoenfeld Residuals for Smoke Status")
+```
+no obvious deviation
+
+
+
+## outlier 
+```{r}
+bfeed.dfb <- residuals(cox5,type="dfbeta")
+bfeed.preds <- predict(cox5)
+```
+
+```{r}
+# dfbeta for race
+plot(bfeed.dfb[,1],xlab="Observation Number",ylab="dfbeta for Race", 
+     ylim=c(-.03,.01), pch = 19, cex = 0.5, col = "orange")
+text(bfeed.dfb[,1]+.0015, labels = rownames(df), cex = 0.8)
+title("dfbeta Values by Observation Number for Race")
+```
+
+```{r}
+# dfbeta for poverty
+plot(bfeed.dfb[,2],xlab="Observation Number",ylab="dfbeta for Poverty", 
+     ylim=c(-.05,.02), pch = 19, cex = 0.5, col = "purple")
+text(bfeed.dfb[,2]+.0025, labels = rownames(df), cex = 0.8)
+title("dfbeta Values by Observation Number for Poverty")
+```
+
+```{r}
+# dfbeta for smoke
+plot(bfeed.dfb[,3],xlab="Observation Number",ylab="dfbeta for Smoke", 
+     ylim=c(-.02,.03), pch = 19, cex = 0.5, col = "green")
+text(bfeed.dfb[,3]+.002, labels = rownames(df), cex = 0.8)
+title("dfbeta Values by Observation Number for Smoke")
+```
+
+
+```{r,results = 'asis',echo=FALSE,message=FALSE,warning=FALSE}
+library(knitr)
+outlier = c(119,489,849,18)
+tabled <- df[outlier, ]
+
+# Display the table using kable
+kable(tabled, caption = "bfeed Data Outliers")
+```
+
+
+
+```{r}
+# check for correlation
+
+contingency_table <- table(df$race, df$poverty)
+# Perform the chi-square test
+result <- chisq.test(contingency_table)
+# Print the result
+print(result)
+
+
+contingency_table2 <- table(df$race, df$smoke)
+# Perform the chi-square test
+result2 <- chisq.test(contingency_table2)
+# Print the result
+print(result2)
+```
+
+
+```{r}
+
+```
+
+```{r}
+none_mod <- coxph(surv~1, data=df) ##model with only intercept
+full_mod <- coxph(surv~race*poverty*smoke, data=df) ##first order model with 9 predictors 
+library(MASS)
+
+#forward+backward selection based on AIC: 
+stepAIC(none_mod, scope=list(upper=full_mod, lower = ~1), direction="both", k=2, trace = TRUE)
+```
+
+```{r}
+# try removing outlier
+df2 <- df[-c(18,119,353,489,849), ]
+
+
+# check for correlation after removing outlier
+
+contingency_table3 <- table(df2$race, df2$poverty)
+# Perform the chi-square test
+result3 <- chisq.test(contingency_table3)
+# Print the result
+print(result3)
+
+
+contingency_table4 <- table(df2$race, df2$smoke)
+# Perform the chi-square test
+result4 <- chisq.test(contingency_table4)
+# Print the result
+print(result4)
+
+
+
+# does not work, I want to cry
 ```
 
