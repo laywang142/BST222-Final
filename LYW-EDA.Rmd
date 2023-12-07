@@ -1,0 +1,200 @@
+---
+title: "BST 222 : Final Project EDA"
+author: "Laura Wang"
+output: 
+  pdf_document:
+header-includes:
+  - \newcommand{\gt}{>} 
+  - \newcommand{\lt}{<}
+  - \usepackage{enumitem}
+  - \usepackage{float}
+  - \usepackage{geometry}
+  - \floatplacement{figure}{H}
+urlcolor: blue
+classoption: onecolumn
+geometry: "left=3cm,right=3cm,top=2cm,bottom=2cm"
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, echo = FALSE, message = FALSE)
+library(dplyr)
+library(kableExtra)
+library(knitr)
+library(KMsurv)
+library(survival)
+library(ggplot2)
+library(survminer)
+library(muhaz)
+library(cowplot)
+library(gtsummary)
+library(flextable)
+```
+
+```{r}
+#add data
+data('bfeed')
+bfeed1 <- bfeed %>% 
+  mutate(race = case_when(race == 1 ~ "white",
+                          race == 2 ~ "black", 
+                          race == 3 ~ "other") %>% 
+           factor(levels = c("white", "black", "other"), ordered = F),
+         poverty = factor(poverty, levels = c(1,0), labels = c("yes", "no")),
+         smoke = factor(smoke, levels = c(1,0), labels = c("yes", "no")),
+         alcohol = factor(alcohol, levels = c(1,0), labels = c("yes", "no")),
+         pc3mth = factor(pc3mth, levels = c(1,0), labels = c("yes", "no")),
+         # yschool = case_when(yschool < 12 ~ "noHS",
+         #                     yschool == 12 ~ "HSgrad", 
+         #                     yschool > 12 ~ "someCollege") %>% 
+         #   factor(levels = c("noHS", "HSgrad", "someCollege"), ordered = F)
+         )
+
+str(bfeed1)
+
+#define survival
+survival <- Surv(time = bfeed$duration, event = bfeed1$delta)
+```
+
+```{r}
+bfeed1 %>% 
+  tbl_summary(include = c(duration, delta), 
+              type = all_continuous() ~ "continuous2",
+              statistic = all_continuous() ~ c("{mean}", "{median}", "{min}-{max}"),
+              label = list(duration = "duration (weeks)",
+                           delta = "delta (=1)"))%>% 
+  modify_header(label = "**bfeed Outcome Summary**") %>% 
+  #modify_caption("\\label{tab:tab2}Summary of Data by Treatment Type") %>% 
+  as_kable_extra(format = "latex", booktabs = T,
+                 caption = "\\label{tab:tab1}Summary of Data Outcome") %>% 
+  kable_styling(latex_options = c("striped", "HOLD_position"), 
+                    full_width = F
+                    )
+```
+
+```{r}
+bfeed1 %>% 
+  tbl_summary(include = c(race, yschool, poverty, alcohol, smoke, agemth, pc3mth),
+              type = all_continuous() ~ "continuous2",
+              statistic = list(all_continuous() ~ c("{mean} ({sd})"),
+                               all_categorical() ~ c("{n} ({p}%)"))) %>% 
+  modify_header(label = "**bfeed Variable Summary**") %>% 
+  #modify_caption("\\label{tab:tab2}Summary of Data by Treatment Type") %>% 
+  as_kable_extra(format = "latex", booktabs = T,
+                 caption = "\\label{tab:tab2}Summary of Data by Variable") %>% 
+  kable_styling(latex_options = c("striped", "HOLD_position"), 
+                    full_width = F
+                    )
+```
+
+
+```{r}
+#base KM curve
+KMcurves <- survfit(survival ~ 1, data = bfeed1)
+
+#plot KM curve
+plot(KMcurves, lwd=1, xlab = "Time (weeks)", ylab = "Survival", conf.int = F)
+title("KM Survival Curves for breastfeeding")
+```
+
+```{r}
+#NA curve
+#making NA curve
+NAcurves <- survfit(survival~1,type="fleming-harrington",data=bfeed1)
+
+#vector of time points
+timevec <- 1:(max(bfeed1$duration) + 1)
+
+#first hazard (group 1)
+sf1 <- stepfun(NAcurves[1]$time,c(1,NAcurves[1]$surv))
+
+#now we can find the cumulative hazards
+cumhaz1 <- -log(sf1(timevec))
+
+
+plot(timevec,cumhaz1,type="l",ylab="Cumulative Hazard",xlab="Time",ylim=c(0,8))
+title("Cumulative Hazard for the Breastfeeding")
+```
+
+```{r eval=FALSE, include=FALSE}
+#full model with everything
+cox1 <- coxph(surv ~ race+poverty+smoke+alcohol+agemth+yschool+pc3mth, data=df)
+summary(cox1)
+AIC(cox1)
+drop1(cox1)
+BIC(cox1)
+
+cox9 <- coxph(survival ~ race + poverty + yschool, data = bfeed1)
+summary(cox9)
+AIC(cox9)
+BIC(cox9)
+drop1(cox9)
+
+cox.zph(cox9)
+
+cox10 <- coxph(survival ~ race + poverty + strata(yschool), data = bfeed1)
+summary(cox10)
+AIC(cox10)
+BIC(cox10)
+```
+
+```{r eval=FALSE, include=FALSE}
+mod_compare <- data.frame(
+  AIC = sapply(1:8, function(x) { AIC(get(paste0("cox", x)))}),
+  BIC = sapply(1:8, function(x) { BIC(get(paste0("cox", x)))}),
+  logtest = sapply(1:8, function(x) {summary(get(paste0("cox", x)))$logtest["pvalue"]})
+)
+```
+
+```{r eval=FALSE, include=FALSE}
+plot_schoen <- function(obj) {
+    
+    nam <- obj[["table"]] %>% rownames()
+    n <- 1:(length(nam) - 1)
+    names(n) <- nam[1:length(n)]
+    
+    lis <- sapply(n, USE.NAMES = T, simplify = F, function(x) {
+      
+      plot.new()
+      plot(obj[x], main = paste("Schoenfeld Residuals for", nam[x]))
+      assign(paste(nam[x]), recordPlot())
+      
+      return(get(paste(nam[x])))
+    })
+    
+    return(lis)
+  
+}
+
+
+```
+
+```{r eval=FALSE, include=FALSE}
+cox8.zph <- cox.zph(cox8)
+plot_schoen(cox8.zph)
+```
+
+```{r}
+mod1 <- mod1 <- coxph(survival ~ clinic + prison + methadone, data = addicts)
+
+```
+
+```{r}
+#fit martingale for full model
+mod1.mart <- residuals(mod1,type="martingale")
+
+#find cox-snell residuals: martingales subtracted from event indicator
+mod1.cs <- addicts$status - mod1.mart
+
+#cumulative hazard of CS residuals
+surv.csr <- survfit(Surv(mod1.cs,addicts$status)~1,type="fleming-harrington")
+
+plot(surv.csr,fun="cumhaz")
+abline(0,1)
+title("Cumulative Hazard of Cox-Snell Residuals")
+```
+
+
+
+
+
+
+
