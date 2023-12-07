@@ -19,27 +19,25 @@ df <- bfeed %>%
   mutate(race = case_when(race == 1 ~ "white",
                           race == 2 ~ "black", 
                           race == 3 ~ "other") %>% 
-           factor(levels = c("white", "black", "other"), ordered = F),
+
+           factor(levels = c("white", "black", "other")),
+
          poverty = factor(poverty, levels = c(1,0), labels = c("yes", "no")),
          smoke = factor(smoke, levels = c(1,0), labels = c("yes", "no")),
          alcohol = factor(alcohol, levels = c(1,0), labels = c("yes", "no")),
          pc3mth = factor(pc3mth, levels = c(1,0), labels = c("yes", "no")),
-         yschool = case_when(yschool < 12 ~ "noHS",
+
+        yschool = case_when(yschool < 12 ~ "noHS",
                              yschool == 12 ~ "HSgrad", 
                              yschool > 12 ~ "someCollege") %>% 
-           factor(levels = c("noHS", "HSgrad", "someCollege"), ordered = F)
+           factor(levels = c("noHS", "HSgrad", "someCollege"))
+
+
          )
 
 str(df)
-
 # survival object
 surv <- Surv(df$duration, df$delta)
-```
-
-
-### data visualization
-```{r}
-#barplot(df$yschool)
 ```
 
 
@@ -66,11 +64,6 @@ legend("topright", legend = c("Yes", "No"), col = 1:2, lty = 1)
 survdiff(surv ~ poverty, data = df) #no difference
 ```
 have apparent crossings
-
-```{r}
-inter.cox <- coxph(surv ~ (race+smoke+alcohol+agemth+yschool+pc3mth) *strata(Gender), data = burn1)
-```
-
 
 
 KM for smoke
@@ -127,57 +120,192 @@ summary(cox1)
 AIC(cox1)
 drop1(cox1)
 
+```
 
-cox2 <- coxph(surv ~ race+strata(poverty)+smoke+alcohol+agemth+yschool+strata(pc3mth), data=df)
+
+
+```{r}
+# remove pc3mthno
+cox2 <- coxph(surv ~ race+poverty+smoke+alcohol+agemth+yschool, data=df)
+
+
 summary(cox2)
 AIC(cox2)
 drop1(cox2)
 
-cox3 <- coxph(surv ~ strata(race)+strata(poverty)+smoke+alcohol+agemth+yschool+strata(pc3mth), data=df)
+
+
+# remove agemth
+cox3 <- coxph(surv ~ race+poverty+smoke+alcohol+yschool, data=df)
+
 summary(cox3)
 AIC(cox3)
 drop1(cox3)
 
 
-cox4 <- coxph(surv ~ strata(race)+strata(poverty)+smoke+alcohol+agemth+yschool+strata(pc3mth), data=df)
+
+# remove alcohol
+cox4 <- coxph(surv ~ race+poverty+smoke+yschool, data=df)
+
 summary(cox4)
 AIC(cox4)
 drop1(cox4)
 
-cox5 <- coxph(surv ~ strata(race)+strata(poverty)+smoke+agemth+yschool+strata(pc3mth), data=df)
+
+# remove yschool
+# best final model!!!
+cox5 <- coxph(surv ~ race+poverty+smoke, data=df)
 summary(cox5)
 AIC(cox5)
+BIC(cox5)
 drop1(cox5)
 
+# remove poverty
+cox6 <- coxph(surv ~ race+smoke, data=df)
 
-cox6 <- coxph(surv ~ strata(race)+strata(poverty)+smoke+yschool+strata(pc3mth), data=df)
 summary(cox6)
 AIC(cox6)
 drop1(cox6)
 
 
-cox7 <- coxph(surv ~ race+strata(poverty)+smoke+yschool+strata(pc3mth), data=df)
-summary(cox7)
-AIC(cox7)
-drop1(cox7)
-
-cox8 <- coxph(surv ~ race+yschool+smoke+strata(poverty)+strata(pc3mth), data=df)
-summary(cox8)
-AIC(cox8)
-drop1(cox8)
-BIC(cox8)
-
-#cox.zph
-sapply(1:8, function(x) {
-  cox.zph(get(paste0("cox", x)))
-})
-
-#cox.zph
-sapply(1:8, function(x) {
-  cox.zph(get(paste0("cox", x)))
-})
-
+print(summary(cox5))
 ```
 
+```{r}
+cox7 <- coxph(surv ~ race*poverty*smoke, data=df)
+summary(cox7)
+AIC(cox7)
+BIC(cox7)
+drop1(cox7)
+```
+
+
+
+```{r}
+# Schoenfeld Residuals, test PH assumption
+bfeed.zph <- cox.zph(cox5)
+print(bfeed.zph)
+plot(bfeed.zph[1], main = "Schoenfeld Residuals for Race")
+plot(bfeed.zph[2], main = "Schoenfeld Residuals for Poverty Status")
+plot(bfeed.zph[3], main = "Schoenfeld Residuals for Smoke Status")
+```
+no obvious deviation
+
+
+
+## outlier 
+```{r}
+bfeed.dfb <- residuals(cox5,type="dfbeta")
+bfeed.preds <- predict(cox5)
+```
+
+```{r}
+# dfbeta for race
+plot(bfeed.dfb[,1],xlab="Observation Number",ylab="dfbeta for Race", 
+     ylim=c(-.03,.01), pch = 19, cex = 0.5, col = "orange")
+text(bfeed.dfb[,1]+.0015, labels = rownames(df), cex = 0.8)
+title("dfbeta Values by Observation Number for Race")
+```
+
+```{r}
+# dfbeta for poverty
+plot(bfeed.dfb[,2],xlab="Observation Number",ylab="dfbeta for Poverty", 
+     ylim=c(-.05,.02), pch = 19, cex = 0.5, col = "purple")
+text(bfeed.dfb[,2]+.0025, labels = rownames(df), cex = 0.8)
+title("dfbeta Values by Observation Number for Poverty")
+```
+
+```{r}
+# dfbeta for smoke
+plot(bfeed.dfb[,3],xlab="Observation Number",ylab="dfbeta for Smoke", 
+     ylim=c(-.02,.03), pch = 19, cex = 0.5, col = "green")
+text(bfeed.dfb[,3]+.002, labels = rownames(df), cex = 0.8)
+title("dfbeta Values by Observation Number for Smoke")
+```
+
+
+```{r,results = 'asis',echo=FALSE,message=FALSE,warning=FALSE}
+library(knitr)
+outlier = c(119,489,849,18)
+tabled <- df[outlier, ]
+
+# Display the table using kable
+kable(tabled, caption = "bfeed Data Outliers")
+```
+
+
+
+```{r}
+# check for correlation
+
+contingency_table <- table(df$race, df$poverty)
+# Perform the chi-square test
+result <- chisq.test(contingency_table)
+# Print the result
+print(result)
+
+
+contingency_table2 <- table(df$race, df$smoke)
+# Perform the chi-square test
+result2 <- chisq.test(contingency_table2)
+# Print the result
+print(result2)
+```
+
+
+
+```{r}
+none_mod <- coxph(surv~1, data=df) ##model with only intercept
+full_mod <- coxph(surv~race*poverty*smoke*alcohol*agemth*yschool*pc3mth, data=df) ##first order model with all predictors 
+library(MASS)
+
+#forward+backward selection based on AIC: 
+stepAIC(none_mod, scope=list(upper=full_mod, lower = ~1), direction="both", k=2, trace = FALSE)
+```
+
+```{r}
+# try removing outlier
+df2 <- df[-c(18,119,353,489,849), ]
+
+
+# check for correlation after removing outlier
+
+contingency_table3 <- table(df2$race, df2$poverty)
+# Perform the chi-square test
+result3 <- chisq.test(contingency_table3)
+# Print the result
+print(result3)
+
+
+contingency_table4 <- table(df2$race, df2$smoke)
+# Perform the chi-square test
+result4 <- chisq.test(contingency_table4)
+# Print the result
+print(result4)
+
+
+
+# does not work, I want to cry
+```
+
+
+```{r}
+library(vcd)
+# Create a contingency table
+conting <- table(df$race, df$smoke)
+# Calculate Cramér's V
+cramer_v <- assocstats(conting)$cramer
+# Print the result
+print(cramer_v)   ## high assocation!!!
+
+
+
+# Create a contingency table
+conting2 <- table(df$race, df$poverty)
+# Calculate Cramér's V
+cramer_v2 <- assocstats(conting2)$cramer
+# Print the result
+print(cramer_v2)
+```
 
 
