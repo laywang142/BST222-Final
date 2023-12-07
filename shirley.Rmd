@@ -24,15 +24,15 @@ df <- bfeed %>%
          smoke = factor(smoke, levels = c(1,0), labels = c("yes", "no")),
          alcohol = factor(alcohol, levels = c(1,0), labels = c("yes", "no")),
          pc3mth = factor(pc3mth, levels = c(1,0), labels = c("yes", "no")),
+
         yschool = case_when(yschool < 12 ~ "noHS",
                              yschool == 12 ~ "HSgrad", 
                              yschool > 12 ~ "someCollege") %>% 
            factor(levels = c("noHS", "HSgrad", "someCollege"))
+
          )
 
 str(df)
-
-
 # survival object
 surv <- Surv(df$duration, df$delta)
 ```
@@ -95,10 +95,6 @@ legend("topright", legend = c("Yes", "No"), col = 1:2, lty = 1)
 have apparent crossings
 
 
-
-
-
-
 ### Model Building
 
 ```{r}
@@ -107,6 +103,7 @@ cox1 <- coxph(surv ~ race+poverty+smoke+alcohol+agemth+yschool+pc3mth, data=df)
 summary(cox1)
 AIC(cox1)
 drop1(cox1)
+
 ```
 
 
@@ -114,23 +111,30 @@ drop1(cox1)
 ```{r}
 # remove pc3mthno
 cox2 <- coxph(surv ~ race+poverty+smoke+alcohol+agemth+yschool, data=df)
+
+
 summary(cox2)
 AIC(cox2)
 drop1(cox2)
 
 
+
 # remove agemth
 cox3 <- coxph(surv ~ race+poverty+smoke+alcohol+yschool, data=df)
+
 summary(cox3)
 AIC(cox3)
 drop1(cox3)
 
 
+
 # remove alcohol
 cox4 <- coxph(surv ~ race+poverty+smoke+yschool, data=df)
+
 summary(cox4)
 AIC(cox4)
 drop1(cox4)
+
 
 # remove yschool
 # best final model!!!
@@ -142,9 +146,11 @@ drop1(cox5)
 
 # remove poverty
 cox6 <- coxph(surv ~ race+smoke, data=df)
+
 summary(cox6)
 AIC(cox6)
 drop1(cox6)
+
 
 print(summary(cox5))
 ```
@@ -284,4 +290,5 @@ cramer_v2 <- assocstats(conting2)$cramer
 # Print the result
 print(cramer_v2)
 ```
+
 
