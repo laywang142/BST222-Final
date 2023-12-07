@@ -3,3 +3,7 @@
 ## Background  
 
 ## Data Description  
+
+The data was sourced from the `KMsurv` package in R. The original data is from the National Longitudinal Survey of Youth (a survey which began in 1979 and ended in 1988) and cleaned to only include certain variables of interest. 
+
+Beginning in 1983, the women in the study population were asked about any pregnancies they had and various data about them were collected. For this dataset, only first-born children born after 1978 at a gestational age of 20 to 45 weeks were included. Then, the data was further narrowed down to only include responses from mothers who chose to breastfeed their children. After taking all of these factors into account, we end up with 927 total observations. For this analysis, the response (survival) is generated using the breastfeeding duration (weeks) and an indicator for whether or not the child was weaned.
