@@ -1,0 +1,99 @@
+---
+title: "BST 222 : Analysis of Factors Affecting Observed Breastfeeding Durations"
+author: "Elsie Basa, Shirley Lin, Laura Wang"
+output: 
+  bookdown::pdf_document2:
+header-includes:
+  - \newcommand{\gt}{>} 
+  - \newcommand{\lt}{<}
+  - \usepackage{enumitem}
+  - \usepackage{float}
+  - \usepackage{geometry}
+  - \usepackage{caption}
+  - \floatplacement{figure}{H}
+  - \newcommand{\beginsupplement}{\setcounter{table}{0}  \renewcommand{\thetable}{S\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}}}
+urlcolor: blue
+toc: FALSE
+classoption: onecolumn
+geometry: "left=3cm,right=3cm,top=2cm,bottom=2cm"
+
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, echo = FALSE, message = FALSE)
+library(dplyr)
+library(kableExtra)
+library(knitr)
+library(KMsurv)
+library(survival)
+library(ggplot2)
+library(survminer)
+library(muhaz)
+library(cowplot)
+library(gtsummary)
+library(flextable)
+```
+
+```{r echo = FALSE, results = 'asis'}
+
+cat(
+  knitr::knit_child('Data_read.Rmd', 
+                    #envir = knit_global(), 
+                    quiet = TRUE)
+  )
+
+```
+
+```{r echo = FALSE, results = 'asis'}
+
+cat(
+  knitr::knit_child('intro_background.Rmd', 
+                    #envir = knit_global(), 
+                    quiet = TRUE)
+  )
+
+```
+
+```{r echo = FALSE, results = 'asis'}
+
+cat(
+  knitr::knit_child('EDA.Rmd', 
+                    #envir = knit_global(), 
+                    quiet = TRUE)
+  )
+
+```
+
+```{r echo = FALSE, results = 'asis'}
+
+cat(
+  knitr::knit_child('modeling.Rmd', 
+                    #envir = knit_global(), 
+                    quiet = TRUE)
+  )
+
+```
+
+
+```{r echo = FALSE, results = 'asis'}
+
+cat(
+  knitr::knit_child('discussion_conclusion.Rmd', 
+                    #envir = knit_global(), 
+                    quiet = TRUE)
+  )
+
+```
+
+\pagebreak
+\beginsupplement
+```{r echo = FALSE, results = 'asis'}
+
+cat(
+  knitr::knit_child('appendix_bib.Rmd', 
+                    #envir = knit_global(), 
+                    quiet = TRUE)
+  )
+
+```
+
