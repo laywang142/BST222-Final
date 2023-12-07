@@ -2,6 +2,8 @@
 
 ## Background  
 
+For newborns, current recommendations by the CDC are to primarily breastfeed a child for the first 6 months of their life and then move to gradually introduce solid foods into their diet. Previous studies have reported the mean and median breastfeeding times to be about 5.7 and 6 months respectively (Wasie Kasahun et al.). However, breastfeeding can continue for as long as the mother and child feel like they can continue for. In general, there are few drawbacks to breastfeeding for longer times, with some recommendations suggesting continuing breastfeeding for as long as 2 years (“Breastfeeding FAQs: How Much and How Often (for Parents) - Nemours KidsHealth”). Breastfeeding is considered beneficial for children, protecting them from certain diseases and past studies have shown that breastfed babies have lower risks of asthma, obesity, and sudden infant death syndrome (SIDS) (“Breastfeeding Benefits Both Baby and Mom | DNPAO | CDC”).
+
 ## Data Description  
 
 The data was sourced from the `KMsurv` package in R. The original data is from the National Longitudinal Survey of Youth (a survey which began in 1979 and ended in 1988) and cleaned to only include certain variables of interest. 
