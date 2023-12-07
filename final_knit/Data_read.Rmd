@@ -1,0 +1,23 @@
+```{r include=FALSE}
+#reading in the data
+data(bfeed)
+
+df <- bfeed %>% 
+  mutate(race = case_when(race == 1 ~ "white",
+                          race == 2 ~ "black", 
+                          race == 3 ~ "other") %>% 
+
+           factor(levels = c("white", "black", "other")),
+
+         poverty = factor(poverty, levels = c(1,0), labels = c("yes", "no")),
+         smoke = factor(smoke, levels = c(1,0), labels = c("yes", "no")),
+         alcohol = factor(alcohol, levels = c(1,0), labels = c("yes", "no")),
+         pc3mth = factor(pc3mth, levels = c(1,0), labels = c("yes", "no")),
+
+        yschool = case_when(yschool < 12 ~ "noHS",
+                             yschool == 12 ~ "HSgrad", 
+                             yschool > 12 ~ "someCollege") %>% 
+           factor(levels = c("noHS", "HSgrad", "someCollege"))
+        )
+```
+
