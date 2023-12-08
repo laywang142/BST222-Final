@@ -1,21 +1,24 @@
 # Exploratory Data Analysis  
 
 ```{r}
-
+library(KMsurv)
+library(survival)
+library(dplyr)
 ```
 
 
 
-```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Density Plots for Sepal.Length"}
-plot(bfeed$agemth, bfeed$duration, main="Scatter Plot of Age vs. Breastfeeding Duration", xlab="Mother's Age", ylab="Breastfeeding Duration (weeks)", pch=19, col="blue")
 
-plot(density(bfeed$agemth, na.rm = TRUE), main="Density Plot of Mother's Age", xlab="Mother's Age", ylab="Density", col="blue", lwd=2)
 
-plot(density(bfeed$duration, na.rm = TRUE), main="Density Plot of Breastfeeding Duration", xlab="Duration (weeks)", ylab="Density", col="green", lwd=2)
+```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Density Plots for Breastfeeding Duration"}
+plot(density(df$duration, na.rm = TRUE), main="Density Plot of Breastfeeding Duration", xlab="Duration (weeks)", ylab="Density", col="green", lwd=2)
 ```
 
+The density plot shows that almost all of the mothers in the study only breastfeed for no more than about 50 weeks, which is about a year. On the graph there is a spike at around 10-12 weeks indicating that the majority of mothers only breastfeed for about a few months.
 
-```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Density Plots for Sepal.Length"}
+
+
+```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Density Plots Mother's Age by Race"}
 
 
 plot(density(bfeed$agemth[bfeed$race == 1], na.rm = TRUE), main="Density Plot of Mother's Age by Race", xlab="Mother's Age", ylab="Density", col="lightblue", lwd=2)
@@ -25,63 +28,138 @@ legend("topright", legend=c("White", "Black", "Other"), col=c("lightblue", "salm
 
 ```
 
+This density plot of mothers age by race demonstrates that black mothers and mothers of other races tend to have their first kids younger than white mothers.
 
 
-```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Density Plots for Sepal.Length"}
+```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Bar Plot on Education proportion By Breastfeeding Status "}
 # barplot
-barplot(prop.table(table(bfeed1$yschool, bfeed1$delta), 2), 
+barplot(prop.table(table(df$yschool, df$delta), 2), 
         main="Education Level Distribution within Breastfeeding Completion Status", 
         xlab="Breastfeeding Completion", 
         ylab="Proportion", 
         col=c("lightblue", "salmon", "lightgreen"), 
-        legend=c("HS Grad", "No High School", "Some College"),
-        names.arg=c("Not Completed Breastfeeding", "Completed Breastfeeding"),
+        legend=c( "No High School", "HS Grad", "Some College"),
+        names.arg=c("Not Weaned", "Weaned"),
         beside=TRUE)
 ```
 
+This plot compares the group of mothers who weaned their babies versus those who did not wean their babies. Those who didnn't wean their children had higher propportion of mothers who went some college in their education background. Mothers who weaned their babies had a higher proportion of those who did not finish high school. 
 
-```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Density Plots for Sepal.Length"}
+```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Box Plot for Categorical Variables"}
 
 par(mfrow=c(1,2)) 
 
 
 
 # Boxplot for Breastfeeding Duration by Poverty
-boxplot(bfeed$duration ~ bfeed$poverty, 
+boxplot(df$duration ~ df$poverty, 
         main="Breastfeeding Duration by Poverty", 
         ylab="Duration (weeks)", 
         xlab="Poverty", 
         col=c("lightblue", "salmon"),
-        names=c("Not in Poverty", "In Poverty"),
+        names=c("In Poverty", "Not in Poverty"), 
         cex.main=0.9) # 
 
 # Boxplot for Breastfeeding Duration by Smoking
-boxplot(bfeed$duration ~ bfeed$smoke, 
+boxplot(df$duration ~ df$smoke, 
         main="Breastfeeding Duration by Smoking", 
         ylab="Duration (weeks)", 
         xlab="Smoke", 
         col=c("lightgreen", "yellow"),
-        names=c("Non-Smoker", "Smoker"),
+        names=c("Smoker", "Non-Smoker"),
         cex.main=0.9) # 
 
 # Boxplot for Breastfeeding Duration by Alcohol Use
-boxplot(bfeed$duration ~ bfeed$alcohol, 
+boxplot(df$duration ~ df$alcohol, 
         main="Breastfeeding Duration by Alcohol Use", 
         ylab="Duration (weeks)", 
         xlab="Alcohol", 
         col=c("pink", "gray"),
-        names=c("No Alcohol", "Alcohol Use"),
+        names=c("Alcohol Use", "No Alcohol"),
         cex.main=0.9) # 
 
 # Boxplot for Breastfeeding Duration by Prenatal Care
-boxplot(bfeed$duration ~ bfeed$pc3mth, 
+boxplot(df$duration ~ df$pc3mth, 
         main="Breastfeeding Duration by Prenatal Care", 
         ylab="Duration (weeks)", 
         xlab="Prenatal Care after 3rd Month", 
         col=c("orange", "purple"),
-        names=c("No Prenatal Care", "Prenatal Care"),
+        names=c("Prenatal Care", "No Prenatal Care"),
+
         cex.main=0.9, cex.axis=.8) # 
 
+
+```
+
+
+The first box plot shows that the breastfeeding duration for those in poverty compared to those who are not in poverty are similar but those in poverty have a slightly lower and narrower breastfeeding duration range. The second box plot shows that mothers who smoked had a sligtly shorter breastfeeding duration and that the range for breastfeeding duration is also narrower compared to mothers who did not smoke.
+
+The third box plot, demonstrates that mothers who use alcohol have a narrower breastfeeding distribution with most mothers breastfeeding betwween 0 and under 50 weeks. Mothers who did not consume alcohol tend to breastfeed between 0 and 52 weeks. Those mothers who consumed alcohol tend breastfeed for a shorter amount of time compared to those who did not.
+The fourth box plot showed that the breastfeeding duration distribution of mothers who had prenatal care compared to those are very similar, with majority of both groups mainly brestfeeding  for 0 weeks to 50 weeks.
+
+
+
+
+```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Box Plot of Race Distribution by Breastfeedin Status"}
+barplot(prop.table(table(df$race, df$delta), 2), 
+        main="Race Distribution within Breastfeeding Completion Status", 
+        xlab="Breastfeeding Completion", 
+        ylab="Proportion", 
+        col=c("lightblue", "salmon", "lightgreen"), 
+        legend=c("White", "Black", "Other"),
+        names.arg=c("Not Weaned", "Weaned"),
+        beside=FALSE)
+```
+This bar plot compares the proportion of each race by breastfeeding status. The group of mothers who were able to wean have a high proportion of mothers of other race and black mothers compared to the group that did not wean.
+
+
+```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="KM Curve - Race"}
+
+# check for stratification in race
+KMcurves_race <- survfit(surv ~ race, data = df)
+plot(KMcurves_race, col = 1:3, main = "KM Curves for Races")
+legend("topright", legend = c("White", "Black", "Other"), col = 1:3, lty = 1)
+
+#survdiff(surv ~ race, data = df) #different processes
+```
+
+
+
+```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="KM Curve - Poverty"}
+KMcurves_poverty <- survfit(surv ~ poverty, data = df)
+plot(KMcurves_poverty, col = 1:2, main = "KM Curves for Poverty")
+legend("topright", legend = c("Yes", "No"), col = 1:2, lty = 1)
+
+#survdiff(surv ~ poverty, data = df) #no difference
+```
+
+
+```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="KM Curve - Smoke"}
+KMcurves_smoke <- survfit(surv ~ smoke, data = df)
+plot(KMcurves_smoke, col = 1:2, main = "KM Curves for Smoke")
+legend("topright", legend = c("Yes", "No"), col = 1:2, lty = 1)
+
+#survdiff(surv ~ smoke, data = df) #different processes
+```
+
+
+```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="KM Curve - Education"}
+KMcurves_yschool <- survfit(surv ~ yschool, data = df)
+plot(KMcurves_yschool, col = 1:3, main = "KM Curves for Education")
+legend("topright", legend = c("noHS", "HSgrad", "comeCollege"), col = 1:3, lty = 1)
+
+#survdiff(surv ~ yschool, data = df) #some difference
+```
+
+
+```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="KM Curve - Poverty"}
+KMcurves_poverty <- survfit(surv ~ poverty, data = df)
+plot(KMcurves_poverty, col = 1:2, main = "KM Curves for Poverty")
+legend("topright", legend = c("Yes", "No"), col = 1:2, lty = 1)
+```
+
+
+```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Density Plots for Sepal.Length"}
 ```
 
 
