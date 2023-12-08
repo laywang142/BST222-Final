@@ -128,6 +128,8 @@ barplot(race_completion_table,
         legend=c("Not Completed", "Completed"),
         names.arg=c("White", "Black", "Other"))
 
+
+
 ```
 ```{r}
 boxplot(bfeed$duration ~ bfeed$yschool, 
@@ -216,7 +218,17 @@ barplot(prop.table(table(bfeed1$yschool, bfeed1$delta), 2),
 ```{r}
 
 
-#eda tables
+
+barplot(prop.table(table(bfeed1$race, bfeed1$delta), 2), 
+        main="Race Distribution within Breastfeeding Completion Status", 
+        xlab="Breastfeeding Completion", 
+        ylab="Proportion", 
+        col=c("lightblue", "salmon", "lightgreen"), 
+        legend=c("White", "Black", "Other"),
+        names.arg=c("Not Completed Breastfeeding", "Completed Breastfeeding"),
+        beside=FALSE)
+
+
 ```
 
 
