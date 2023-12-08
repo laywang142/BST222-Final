@@ -236,15 +236,6 @@ barplot(prop.table(table(bfeed1$yschool, bfeed1$delta), 2),
 
 ```{r}
 
-#aic
-#stepAIC()
-
-#drop1
-
-
-
-#new model
-
 
 ```
 
@@ -252,9 +243,44 @@ barplot(prop.table(table(bfeed1$yschool, bfeed1$delta), 2),
 
 ```{r}
 
-#model diagnostics
+
+library(vcd)
+
+variables <- list(bfeed1$race, bfeed1$poverty, bfeed1$smoke, bfeed1$alcohol, bfeed1$yschool)
+
+assoc_matrix <- matrix(nrow = length(variables), ncol = length(variables))
+
+
+for (i in 1:length(variables)) {
+  for (j in 1:length(variables)) {
+    if (i != j) {
+      assoc_matrix[i, j] <- assocstats(table(variables[[i]], variables[[j]]))$cramer
+    } else {
+      assoc_matrix[i, j] <- 1
+    }
+  }
+}
+
+rownames(assoc_matrix) <- colnames(assoc_matrix) <- c("race", "poverty", "smoke", "alcohol", "years in school")
+heatmap(assoc_matrix, Rowv = NA, Colv = NA, col = (topo.colors(888)), scale="column", margins=c(8,8))
+
 ```
 
+
+```{r}
+
+
+```
+
+```{r}
+
+
+```
+
+```{r}
+
+
+```
 
 ```{r}
 
