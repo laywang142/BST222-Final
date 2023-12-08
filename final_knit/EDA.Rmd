@@ -1,2 +1,90 @@
 # Exploratory Data Analysis  
 
+```{r}
+
+```
+
+
+
+```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Density Plots for Sepal.Length"}
+plot(bfeed$agemth, bfeed$duration, main="Scatter Plot of Age vs. Breastfeeding Duration", xlab="Mother's Age", ylab="Breastfeeding Duration (weeks)", pch=19, col="blue")
+
+plot(density(bfeed$agemth, na.rm = TRUE), main="Density Plot of Mother's Age", xlab="Mother's Age", ylab="Density", col="blue", lwd=2)
+
+plot(density(bfeed$duration, na.rm = TRUE), main="Density Plot of Breastfeeding Duration", xlab="Duration (weeks)", ylab="Density", col="green", lwd=2)
+```
+
+
+```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Density Plots for Sepal.Length"}
+
+
+plot(density(bfeed$agemth[bfeed$race == 1], na.rm = TRUE), main="Density Plot of Mother's Age by Race", xlab="Mother's Age", ylab="Density", col="lightblue", lwd=2)
+lines(density(bfeed$agemth[bfeed$race == 2], na.rm = TRUE), col="salmon", lwd=2)
+lines(density(bfeed$agemth[bfeed$race == 3], na.rm = TRUE), col="lightgreen", lwd=2)
+legend("topright", legend=c("White", "Black", "Other"), col=c("lightblue", "salmon", "lightgreen"), lwd=2)
+
+```
+
+
+
+```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Density Plots for Sepal.Length"}
+# barplot
+barplot(prop.table(table(bfeed1$yschool, bfeed1$delta), 2), 
+        main="Education Level Distribution within Breastfeeding Completion Status", 
+        xlab="Breastfeeding Completion", 
+        ylab="Proportion", 
+        col=c("lightblue", "salmon", "lightgreen"), 
+        legend=c("HS Grad", "No High School", "Some College"),
+        names.arg=c("Not Completed Breastfeeding", "Completed Breastfeeding"),
+        beside=TRUE)
+```
+
+
+```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Density Plots for Sepal.Length"}
+
+par(mfrow=c(1,2)) 
+
+
+
+# Boxplot for Breastfeeding Duration by Poverty
+boxplot(bfeed$duration ~ bfeed$poverty, 
+        main="Breastfeeding Duration by Poverty", 
+        ylab="Duration (weeks)", 
+        xlab="Poverty", 
+        col=c("lightblue", "salmon"),
+        names=c("Not in Poverty", "In Poverty"),
+        cex.main=0.9) # 
+
+# Boxplot for Breastfeeding Duration by Smoking
+boxplot(bfeed$duration ~ bfeed$smoke, 
+        main="Breastfeeding Duration by Smoking", 
+        ylab="Duration (weeks)", 
+        xlab="Smoke", 
+        col=c("lightgreen", "yellow"),
+        names=c("Non-Smoker", "Smoker"),
+        cex.main=0.9) # 
+
+# Boxplot for Breastfeeding Duration by Alcohol Use
+boxplot(bfeed$duration ~ bfeed$alcohol, 
+        main="Breastfeeding Duration by Alcohol Use", 
+        ylab="Duration (weeks)", 
+        xlab="Alcohol", 
+        col=c("pink", "gray"),
+        names=c("No Alcohol", "Alcohol Use"),
+        cex.main=0.9) # 
+
+# Boxplot for Breastfeeding Duration by Prenatal Care
+boxplot(bfeed$duration ~ bfeed$pc3mth, 
+        main="Breastfeeding Duration by Prenatal Care", 
+        ylab="Duration (weeks)", 
+        xlab="Prenatal Care after 3rd Month", 
+        col=c("orange", "purple"),
+        names=c("No Prenatal Care", "Prenatal Care"),
+        cex.main=0.9, cex.axis=.8) # 
+
+```
+
+
+```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Density Plots for Sepal.Length"}
+```
+
