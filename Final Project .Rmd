@@ -199,6 +199,7 @@ boxplot(bfeed1$duration ~ bfeed1$yschool,
         names=c("HS Grad", "No High School", "Some College"))
 
 ```
+
 ```{r}
 barplot(prop.table(table(bfeed1$yschool, bfeed1$delta), 2), 
         main="Education Level Distribution within Breastfeeding Completion Status", 
@@ -215,8 +216,15 @@ barplot(prop.table(table(bfeed1$yschool, bfeed1$delta), 2),
 
 ```{r}
 
+barplot(prop.table(table(bfeed1$race, bfeed1$delta), 2), 
+        main="Race Distribution within Breastfeeding Completion Status", 
+        xlab="Breastfeeding Completion", 
+        ylab="Proportion", 
+        col=c("lightblue", "salmon", "lightgreen"), 
+        legend=c("White", "Black", "Other"),
+        names.arg=c("Not Completed Breastfeeding", "Completed Breastfeeding"),
+        beside=FALSE)
 
-#eda tables
 ```
 
 
