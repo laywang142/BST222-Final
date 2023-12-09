@@ -98,7 +98,7 @@ The fourth box plot showed that the breastfeeding duration distribution of mothe
 
 
 
-```{r boxbfeedstat, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Box Plot of Race Distribution by Breastfeedin Status"}
+```{r boxbfeedstat, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Box Plot of Race Distribution by Breastfeeding Status"}
 barplot(prop.table(table(df$race, df$delta), 2), 
         main="Race Distribution within Breastfeeding Completion Status", 
         xlab="Breastfeeding Completion", 
