@@ -213,21 +213,28 @@ kable(tabled, caption = "bfeed Data Outliers")
 
 
 ```{r}
+library(vcd)
+
 # check for correlation
 
+
 contingency_table <- table(df$race, df$poverty)
-# Perform the chi-square test
-result <- chisq.test(contingency_table)
-# Print the result
-print(result)
+# chi-squre test
+print(chisq.test(contingency_table))
+# Calculate Cramér's V
+print(assocstats(contingency_table)$cramer)       
 
 
 contingency_table2 <- table(df$race, df$smoke)
-# Perform the chi-square test
-result2 <- chisq.test(contingency_table2)
-# Print the result
-print(result2)
+print(chisq.test(contingency_table2))
+print(assocstats(contingency_table2)$cramer)         ## highest association!!!
+
+contingency_table3 <- table(df$poverty, df$smoke)
+print(chisq.test(contingency_table3))
+print(assocstats(contingency_table3)$cramer)
 ```
+
+
 
 
 
@@ -246,42 +253,53 @@ df2 <- df[-c(18,119,353,489,849), ]
 
 
 # check for correlation after removing outlier
-
-contingency_table3 <- table(df2$race, df2$poverty)
-# Perform the chi-square test
-result3 <- chisq.test(contingency_table3)
-# Print the result
-print(result3)
-
-
-contingency_table4 <- table(df2$race, df2$smoke)
-# Perform the chi-square test
-result4 <- chisq.test(contingency_table4)
-# Print the result
-print(result4)
+```
 
 
 
-# does not work, I want to cry
+
+
+```{r}
+# stratified by race
+none_mod <- coxph(surv~1, data=df) ##model with only intercept
+full_mod <- coxph(surv~poverty*smoke*alcohol*agemth*yschool*pc3mth+strata(race), data=df) ##first order model with all predictors 
+
+#forward+backward selection based on AIC: 
+stepAIC(none_mod, scope=list(upper=full_mod, lower = ~1), direction="both", k=2, trace = FALSE)
+```
+
+
+
+```{r}
+# stratified by race
+cox9 <- coxph(surv ~ smoke+poverty+strata(race), data=df)
+summary(cox9)
+AIC(cox9)
 ```
 
 
 ```{r}
-library(vcd)
-# Create a contingency table
-conting <- table(df$race, df$smoke)
-# Calculate Cramér's V
-cramer_v <- assocstats(conting)$cramer
-# Print the result
-print(cramer_v)   ## high assocation!!!
+# stratified by smoke
+cox10 <- coxph(surv ~ smoke+strata(race), data=df)
+summary(cox10)
+AIC(cox10)
+```
 
+```{r}
+cox_r <- coxph(surv ~ race, data=df)
+summary(cox_r)
+AIC(cox_r)
 
+cox_s <- coxph(surv ~ smoke, data=df)
+summary(cox_s)
+AIC(cox_s)
 
-# Create a contingency table
-conting2 <- table(df$race, df$poverty)
-# Calculate Cramér's V
-cramer_v2 <- assocstats(conting2)$cramer
-# Print the result
-print(cramer_v2)
+cox_p <- coxph(surv ~ poverty, data=df)
+summary(cox_p)
+AIC(cox_p)
+
+cox_y <- coxph(surv ~ yschool, data=df)
+summary(cox_y)
+AIC(cox_y)
 ```
 
