@@ -44,7 +44,6 @@ legend("topright",
 Figure \@ref(fig:edubar) compares the group of mothers who weaned their babies versus those who did not wean their babies. Those who didnn't wean their children had higher proportion of mothers who went some college in their education background. Mothers who weaned their babies had a higher proportion of those who did not finish high school. 
 
 ```{r catvarbox, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Box Plot for Categorical Variables"}
-
 par(mfrow=c(1,2)) 
 
 
@@ -65,8 +64,12 @@ boxplot(df$duration ~ df$smoke,
         xlab="Smoke", 
         col=c("lightgreen", "yellow"),
         names=c("Smoker", "Non-Smoker"),
-        cex.main=0.9) # 
+        cex.main=0.9) #
+```
 
+
+```{r catvarbox2, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Box Plot for Categorical Variables"}
+par(mfrow=c(1,2)) 
 # Boxplot for Breastfeeding Duration by Alcohol Use
 boxplot(df$duration ~ df$alcohol, 
         main="Breastfeeding Duration by Alcohol Use", 
@@ -90,10 +93,10 @@ boxplot(df$duration ~ df$pc3mth,
 ```
 
 
-The first box plot shows that the breastfeeding duration for those in poverty compared to those who are not in poverty are similar but those in poverty have a slightly lower and narrower breastfeeding duration range. The second box plot shows that mothers who smoked had a sligtly shorter breastfeeding duration and that the range for breastfeeding duration is also narrower compared to mothers who did not smoke.
+In figure Figure \@ref(fig:catvarbox), the  first box plot shows that the breastfeeding duration for those in poverty compared to those who are not in poverty are similar but those in poverty have a slightly lower and narrower breastfeeding duration range. The second box plot shows that mothers who smoked had a sligtly shorter breastfeeding duration and that the range for breastfeeding duration is also narrower compared to mothers who did not smoke.
 
-The third box plot, demonstrates that mothers who use alcohol have a narrower breastfeeding distribution with most mothers breastfeeding betwween 0 and under 50 weeks. Mothers who did not consume alcohol tend to breastfeed between 0 and 52 weeks. Those mothers who consumed alcohol tend breastfeed for a shorter amount of time compared to those who did not.
-The fourth box plot showed that the breastfeeding duration distribution of mothers who had prenatal care compared to those are very similar, with majority of both groups mainly brestfeeding  for 0 weeks to 50 weeks.
+In figure \@ref(fig:catvarbox2), the first box plot, demonstrates that mothers who use alcohol have a narrower breastfeeding distribution with most mothers breastfeeding betwween 0 and under 50 weeks. Mothers who did not consume alcohol tend to breastfeed between 0 and 52 weeks. Those mothers who consumed alcohol tend breastfeed for a shorter amount of time compared to those who did not.
+The second box plot showed that the breastfeeding duration distribution of mothers who had prenatal care compared to those are very similar, with majority of both groups mainly brestfeeding  for 0 weeks to 50 weeks.
 
 
 
@@ -104,9 +107,17 @@ barplot(prop.table(table(df$race, df$delta), 2),
         xlab="Breastfeeding Completion", 
         ylab="Proportion", 
         col=c("lightblue", "salmon", "lightgreen"), 
-        legend=c("White", "Black", "Other"),
         names.arg=c("Not Weaned", "Weaned"),
+        cex.main=0.9,
         beside=FALSE)
+
+legend("bottomright", 
+  legend =c("White", "Black", "Other"),
+  fill = c("lightblue", "salmon", "lightgreen"),
+  bg="white",
+  ncol = 1, 
+  bty = "o", 
+  cex = 0.75)
 ```
 Figure \@ref(fig:boxbfeedstat) compares the proportion of each race by breastfeeding status. The group of mothers who were able to wean have a high proportion of mothers of other race and black mothers compared to the group that did not wean.
 
