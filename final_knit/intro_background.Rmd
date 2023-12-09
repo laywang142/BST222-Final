@@ -10,9 +10,27 @@ The data was sourced from the `KMsurv` package in R. The original data is from t
 
 Beginning in 1983, the women in the study population were asked about any pregnancies they had and various data about them were collected. For this dataset, only first-born children born after 1978 at a gestational age of 20 to 45 weeks were included. Then, the data was further narrowed down to only include responses from mothers who chose to breastfeed their children. After taking all of these factors into account, we end up with 927 total observations. For this analysis, the response (survival) is generated using the breastfeeding duration (weeks) and an indicator for whether or not the child was weaned.  
 
-The variables included in this dataset are:  
+The variables included in this dataset are shown in Table \@ref(tab:facttab).   
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-variable_names <- colnames(df)
+variable_names <- c("race", "poverty", "smoke", "alcohol", "agemth", "ybirth", "yschool", "pc3mth")
+var_desc <- c("Race of mother (1=white, 2=black, 3=other)", 
+"Mother in poverty (1=yes, 0=no)",
+"Mother smoked at birth of child (1=yes, 0=no)",  
+"Mother used alcohol at birth of child (1=yes, 0=no)",
+"Age of mother at birth of child",
+"Year of birth", 
+"Education level of mother (years of school)",
+"Prenatal care after 3rd month (1=yes, 0=no)")
+
+variable_tab <- data.frame(variable_names, var_desc)
+variable_tab %>% kable(col.names = NULL, 
+                    align = 'c', 
+                    booktabs = T, 
+                    caption = "\\label{tab:facttab}Factor Levels for Categorical Variables") %>% 
+  kable_styling(latex_options = c("striped", "hold_position"), 
+                    full_width = F, font_size = 10 
+                    ) %>% 
+  column_spec(1, bold = T)
 ```
 
