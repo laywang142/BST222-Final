@@ -28,9 +28,46 @@ variable_tab %>% kable(col.names = NULL,
                     align = 'c', 
                     booktabs = T, 
                     caption = "\\label{tab:facttab}Factor Levels for Categorical Variables") %>% 
-  kable_styling(latex_options = c("striped", "hold_position"), 
+  kable_styling(latex_options = c("striped", "HOLD_position"), 
                     full_width = F, font_size = 10 
                     ) %>% 
   column_spec(1, bold = T)
 ```
+
+It is important to note that, for this dataset in particular, formula feeding is not considered breastfeeding despite formula being a form of liquid nourishment for infants. The indicator for poverty only indicates whether or not the mother was in poverty at the time of birth of her child. Table \@ref(tab:tab1) shows some very basic summary statistics for the outcome variables (`duration` and `delta`). When `delta` takes on a value of 1, it means that the child completed breastfeeding (was weaned) at the end of the reported period of time. Otherwise, the value of 0 meant that the information was either censored (unobserved) or there was loss to follow-up. All of the children who were reported to not have finished breastfeeding yet were born during or after 1984.   
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+df %>% 
+  tbl_summary(include = c(duration, delta), 
+              type = all_continuous() ~ "continuous2",
+              statistic = all_continuous() ~ c("{mean}", "{median}", "{min}-{max}"),
+              label = list(duration = "duration (weeks)",
+                           delta = "delta (=1)"))%>% 
+  modify_header(label = "**bfeed Outcome Summary**") %>% 
+  #modify_caption("\\label{tab:tab2}Summary of Response") %>% 
+  as_kable_extra(format = "latex", booktabs = T,
+                 caption = "\\label{tab:tab1}Summary of Data Outcome") %>% 
+  kable_styling(latex_options = c("striped", "HOLD_position"), 
+                    full_width = F
+                    )
+```
+
+```{r echo=FALSE, message=TRUE, warning=FALSE}
+df %>% 
+  tbl_summary(include = c(race, yschool, poverty, alcohol, smoke, agemth, pc3mth), 
+              type = all_continuous() ~ "continuous2",
+              statistic = list(all_continuous() ~ c("{mean} ({sd})"),
+                               all_categorical() ~ c("{n} ({p}%)")),
+              by = delta) %>% 
+  modify_header(label = "**bfeed Variable Summary**") %>% 
+  #modify_caption("\\label{tab:tab3}Summary of Variables") %>% 
+  as_kable_extra(format = "latex", booktabs = T,
+                 caption = "\\label{tab:tab2}Summary of Data by Variable") %>% 
+  kable_styling(latex_options = c("striped", "HOLD_position"), 
+                    full_width = F
+                    )
+```
+
+General guidelines for pregnant mothers recommend seeking prenatal care after the third month of pregnancy. However, as seen in Table \@ref(tab:tab2), only approximately 18% of the mothers chose to seek out prenatal care after the third month of their pregnancies. Also, while a fairly low percentage of the mothers consumed alcohol around the time of the birth of their child, approximately 30% of them reported smoking at the time. However, the degree of their smoking, such as how much or how often they smoked, wasn't included in the dataset. Visual representations of these summary tables can be found in the exploratory data analysis portion of the paper.   
 
