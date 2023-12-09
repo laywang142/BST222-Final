@@ -1,24 +1,16 @@
 # Exploratory Data Analysis  
 
-```{r}
-library(KMsurv)
-library(survival)
-library(dplyr)
-```
 
 
-
-
-
-```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Density Plots for Breastfeeding Duration"}
+```{r bfeeddens, fig.cap="Density Plot of Breastfeeding Duration", fig.height=3.5, message=FALSE, warning=FALSE, fig.align='center'}
 plot(density(df$duration, na.rm = TRUE), main="Density Plot of Breastfeeding Duration", xlab="Duration (weeks)", ylab="Density", col="green", lwd=2)
 ```
 
-The density plot shows that almost all of the mothers in the study only breastfeed for no more than about 50 weeks, which is about a year. On the graph there is a spike at around 10-12 weeks indicating that the majority of mothers only breastfeed for about a few months.
+Figure \@ref(fig:bfeeddens) is a density plot shows that almost all of the mothers in the study only breastfeed for no more than about 50 weeks, which is about a year. On the graph there is a spike at around 10-12 weeks indicating that the majority of mothers only breastfeed for about a few months.
 
 
 
-```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Density Plots Mother's Age by Race"}
+```{r mthage, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Density Plots Mother's Age by Race"}
 
 
 plot(density(bfeed$agemth[bfeed$race == 1], na.rm = TRUE), main="Density Plot of Mother's Age by Race", xlab="Mother's Age", ylab="Density", col="lightblue", lwd=2)
@@ -28,24 +20,30 @@ legend("topright", legend=c("White", "Black", "Other"), col=c("lightblue", "salm
 
 ```
 
-This density plot of mothers age by race demonstrates that black mothers and mothers of other races tend to have their first kids younger than white mothers.
+Figure \@ref(fig:mthage) shows the density of the mothers' age by race demonstrates that black mothers and mothers of other races tend to have their first kids younger than white mothers.
 
 
-```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Bar Plot on Education proportion By Breastfeeding Status "}
+```{r edubar, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Bar Plot on Education proportion By Breastfeeding Status"}
 # barplot
 barplot(prop.table(table(df$yschool, df$delta), 2), 
-        main="Education Level Distribution within Breastfeeding Completion Status", 
+        #main="Education Level Distribution within Breastfeeding Completion Status", 
         xlab="Breastfeeding Completion", 
         ylab="Proportion", 
-        col=c("lightblue", "salmon", "lightgreen"), 
-        legend=c( "No High School", "HS Grad", "Some College"),
+        col=c("lightblue", "salmon", "lightgreen"),
         names.arg=c("Not Weaned", "Weaned"),
-        beside=TRUE)
+        beside=TRUE
+    )
+legend("topright", 
+  legend = c( "No High School", "HS Grad", "Some College"), 
+  fill = c("lightblue", "salmon", "lightgreen"), 
+  ncol = 2, 
+  bty = "n", 
+  cex = 0.75)
 ```
 
-This plot compares the group of mothers who weaned their babies versus those who did not wean their babies. Those who didnn't wean their children had higher propportion of mothers who went some college in their education background. Mothers who weaned their babies had a higher proportion of those who did not finish high school. 
+Figure \@ref(fig:edubar) compares the group of mothers who weaned their babies versus those who did not wean their babies. Those who didnn't wean their children had higher propportion of mothers who went some college in their education background. Mothers who weaned their babies had a higher proportion of those who did not finish high school. 
 
-```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Box Plot for Categorical Variables"}
+```{r catvarbox, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Box Plot for Categorical Variables"}
 
 par(mfrow=c(1,2)) 
 
@@ -100,7 +98,7 @@ The fourth box plot showed that the breastfeeding duration distribution of mothe
 
 
 
-```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Box Plot of Race Distribution by Breastfeedin Status"}
+```{r boxbfeedstat, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Box Plot of Race Distribution by Breastfeedin Status"}
 barplot(prop.table(table(df$race, df$delta), 2), 
         main="Race Distribution within Breastfeeding Completion Status", 
         xlab="Breastfeeding Completion", 
@@ -110,10 +108,10 @@ barplot(prop.table(table(df$race, df$delta), 2),
         names.arg=c("Not Weaned", "Weaned"),
         beside=FALSE)
 ```
-This bar plot compares the proportion of each race by breastfeeding status. The group of mothers who were able to wean have a high proportion of mothers of other race and black mothers compared to the group that did not wean.
+Figure \@ref(fig:boxbfeedstat) compares the proportion of each race by breastfeeding status. The group of mothers who were able to wean have a high proportion of mothers of other race and black mothers compared to the group that did not wean.
 
 
-```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="KM Curve - Race"}
+```{r kmrace, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="KM Curve - Race"}
 
 # check for stratification in race
 KMcurves_race <- survfit(surv ~ race, data = df)
@@ -125,7 +123,7 @@ legend("topright", legend = c("White", "Black", "Other"), col = 1:3, lty = 1)
 
 
 
-```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="KM Curve - Poverty"}
+```{r kmpoverty, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="KM Curve - Poverty"}
 KMcurves_poverty <- survfit(surv ~ poverty, data = df)
 plot(KMcurves_poverty, col = 1:2, main = "KM Curves for Poverty")
 legend("topright", legend = c("Yes", "No"), col = 1:2, lty = 1)
@@ -134,7 +132,7 @@ legend("topright", legend = c("Yes", "No"), col = 1:2, lty = 1)
 ```
 
 
-```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="KM Curve - Smoke"}
+```{r kmsmoke, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="KM Curve - Smoke"}
 KMcurves_smoke <- survfit(surv ~ smoke, data = df)
 plot(KMcurves_smoke, col = 1:2, main = "KM Curves for Smoke")
 legend("topright", legend = c("Yes", "No"), col = 1:2, lty = 1)
@@ -143,7 +141,7 @@ legend("topright", legend = c("Yes", "No"), col = 1:2, lty = 1)
 ```
 
 
-```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="KM Curve - Education"}
+```{r kmschool, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="KM Curve - Education"}
 KMcurves_yschool <- survfit(surv ~ yschool, data = df)
 plot(KMcurves_yschool, col = 1:3, main = "KM Curves for Education")
 legend("topright", legend = c("noHS", "HSgrad", "comeCollege"), col = 1:3, lty = 1)
@@ -152,17 +150,17 @@ legend("topright", legend = c("noHS", "HSgrad", "comeCollege"), col = 1:3, lty =
 ```
 
 
-```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="KM Curve - Poverty"}
+```{r kmpov, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="KM Curve - Poverty"}
 KMcurves_poverty <- survfit(surv ~ poverty, data = df)
 plot(KMcurves_poverty, col = 1:2, main = "KM Curves for Poverty")
 legend("topright", legend = c("Yes", "No"), col = 1:2, lty = 1)
 ```
 
 
-```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Density Plots for Sepal.Length"}
+```{r sect1, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Density Plots for Sepal.Length"}
 ```
 
 
-```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Density Plots for Sepal.Length"}
+```{r sect2, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Density Plots for Sepal.Length"}
 ```
 

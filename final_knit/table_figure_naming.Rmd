@@ -20,7 +20,7 @@ df  %>%
 if you do this properly, you can just do Table \@ref(tab:tdepsumry) and it'll get the number automatically and it'll hyperlink to the table too.  
 
 # For Plots  
-```{r randomsectname fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Density Plots for Sepal.Length"}
+```{r randomsectname, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Density Plots for Sepal.Length"}
 
 ggplot(iris, aes(x = Sepal.Length)) + 
   geom_density(aes(color = Species, fill = Species), alpha = 0.3) + 

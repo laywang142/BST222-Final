@@ -21,3 +21,9 @@ df <- bfeed %>%
         )
 ```
 
+```{r include=FALSE}
+## Survival object
+surv <- with(df,Surv(duration,delta))
+```
+
+
