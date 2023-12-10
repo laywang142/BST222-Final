@@ -10,7 +10,7 @@ After removing insignificant terms repeatedly, the best model's remaining variab
 
 However, the issue of multicollinearity arose when we examined the correlation among the three most significant variables in the model. We found a significant correlation between each pair of variables related to race, poverty, and smoke when we used Pearson's chi-squared test on a contingency table to assess the correlation between the categorical variables. The chi-squared test p-values for the correlation were 3.407e-05 for poverty and race, 1.009e-10 for race and smoke, and 0.006169 for poverty and smoke. Race and smoke had the lowest p-value, which indicates the strongest association between them. 
 
-As a result, even though this model has the lowest AIC and BIC values, multicollinearity severely restricts its applicability in real-world scenarios. This may result in problems like inflated standard errors and trouble determining the relative contributions of different variables. To address this problem and provide a more accurate analysis, we built three distinct models, each concentrating on one of the correlated variables, which are poverty, smoke, and race. 
+As a result, even though this model has the lowest AIC and BIC values, multicollinearity severely restricts its applicability in real-world scenarios. This may result in problems like inflated standard errors and trouble determining the relative contributions of different variables. To address this problem and provide a more accurate analysis, we built three distinct models, each concentrating on one of the correlated variables, which are poverty, smoke, and race. In addition, we also checked if other variables are significant when modeled by itself. 
 
 
 
