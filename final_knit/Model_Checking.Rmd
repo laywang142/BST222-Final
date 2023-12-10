@@ -1,7 +1,7 @@
 # Model Checking
 
 ## Assumption
-The Schoenfeld residual plots and the cox.zph function are used to test the proportional hazards assumption for the Cox regression model. The models with race and smoke have p-values of 0.29 and 0.83, respectively, both of which are greater than 0.05.
+The Schoenfeld residual plots and the cox.zph function are used to test the proportional hazards assumption for the Cox regression model. The models with race, smoke, and year of school have p-values of 0.29, 0.83, and 0.055 respectively, all of which are greater than 0.05.
 
 ```{r resa, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Schoenfeld Residuals for Race"}
 plot(cox.zph(coxa))
@@ -11,7 +11,11 @@ plot(cox.zph(coxa))
 plot(cox.zph(coxb))
 ```
 
-The Schoenfeld residual plots shown in \@ref(fig:resa) and \@ref(fig:resb) do not exhibit any clear signs of non-proportionality because the residuals are randomly distributed around the y=0 lines in both plots. These results suggest that the evidence is insufficient to conclude that the hazards are non-proportional for the two models. 
+```{r resc, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Schoenfeld Residuals for Year of School"}
+plot(cox.zph(coxc))
+```
+
+The Schoenfeld residual plots shown in \@ref(fig:resa), \@ref(fig:resb), and \@ref(fig:resc) do not exhibit any clear signs of non-proportionality because the residuals are randomly distributed around the y=0 lines in both plots. These results suggest that the evidence is insufficient to conclude that the hazards are non-proportional for the two models. 
 
 ## Outliers
 
@@ -19,6 +23,7 @@ The Schoenfeld residual plots shown in \@ref(fig:resa) and \@ref(fig:resb) do no
 ```{r}
 dfb1 <- residuals(coxa,type="dfbeta")
 dfb2 <- residuals(coxb,type="dfbeta")
+dfb3 <- residuals(coxc,type="dfbeta")
 ```
 
 ```{r}
@@ -31,10 +36,24 @@ title("dfbeta Values by Observation Number for Race")
 
 ```{r}
 # dfbeta for smoke
-plot(bfeedb.dfb[,1],xlab="Observation Number",ylab="dfbeta for Smoke", 
+plot(dfb2[,1],xlab="Observation Number",ylab="dfbeta for Smoke", 
      ylim=c(-.02,.03), pch = 19, cex = 0.5, col = "purple")
-text(bfeedb.dfb[,1]+.002, labels = rownames(df), cex = 0.8)
+text(dfb2[,1]+.002, labels = rownames(df), cex = 0.8)
 title("dfbeta Values by Observation Number for Smoke")
 ```
 
+```{r}
+# dfbeta for  yschool
+plot(dfb3[,1],xlab="Observation Number",ylab="dfbeta for Year of School", 
+     ylim=c(-.015,.022), pch = 19, cex = 0.5, col = "green")
+text(dfb3[,1]+.0015, labels = rownames(df), cex = 0.8)
+title("dfbeta Values by Observation Number for Year of School")
+```
+
 Dim for dfb2 is NULL!!!!!!!! WHYYYYYYYYYY
+
+
+
+We used DFBETA to assess how the exclusion of a specific data point impacts the regression coefficients. The larger the absolute value of DFBETA  is, the more influential the point becomes and the greater the probability that it is an outlier. 
+
+Observations ____ in our analysis deviate from the majority of the data points, indicating that these observations are likely to be outliers and need further investigation. 
