@@ -40,7 +40,7 @@ coxc_tbl  %>%
 
 ## Results Interpretation  
 
-The p-value for other races is 0.00594, which is lower than our significance level of 0.05. The coefficient for raceother is 0.25439, which implies that when holding other variables constant, mothers of other races are approximately exp(0.25439) =1.28967 times more likely to wean than our reference group of white mothers. For the same reason, black mothers are approximately exp(0.11060) =1.11695 times more likely to wean than white mothers. However, the difference between black and white mothers is not as significant as that between mothers of other races and white mothers. 
+The p-value for other races is 0.00594, which is lower than our significance level of 0.05. The coefficient for `raceother` is 0.25439, which implies that when holding other variables constant, mothers of other races are approximately exp(0.25439) =1.28967 times more likely to wean than our reference group of white mothers. For the same reason, black mothers are approximately exp(0.11060) =1.11695 times more likely to wean than white mothers. However, the difference between black and white mothers is not as significant as that between mothers of other races and white mothers. 
 
 After that, not smoking has a coefficient of -0.22702. This indicates that when holding other variables constant, mothers who did not smoke during the born of their first child have a hazard approximately exp(-0.22702) = 0.79690 times that of mothers who reported smoking with a p-value of 0.00208. 
 
