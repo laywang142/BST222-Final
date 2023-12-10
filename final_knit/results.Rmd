@@ -35,5 +35,5 @@ The p-value for other races is 0.00594, which is lower than our significance lev
 
 After that, not smoking has a coefficient of -0.22702. This indicates that when holding other variables constant, mothers who did not smoke during the born of their first child have a hazard approximately exp(-0.22702) = 0.79690 times that of mothers who reported smoking with a p-value of 0.00208. 
 
-We found that when only having poverty in the model, the p-value is 0.379, which is larger than the significance level. Therefore, mothers’ financial situation at the time of their first child's birth is not an important indicator of weaning by itself. 
+We found that when only having poverty in the model, the p-value is 0.379, which is larger than the significance level. Although a 1.1681 times likelihood to wean is observed in mothers not in poverty in the reduced model with race, smoke, and poverty, the effect of poverty disappears in the new model. Therefore, mothers’ financial situation at the time of their first child's birth is not an important indicator of weaning by itself and is removed from the significant models for this study. 
 
