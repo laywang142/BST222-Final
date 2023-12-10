@@ -1,2 +1,17 @@
-# Model Building  
+# Model Building
+
+Cox proportional hazard regression models are used to analyze the weaning behavior because the coefficients can be used to quantify the effect and work for both quantitative and categorical variables simultaneously. 
+
+A survival object is created with the duration of breastfeeding in weeks and an indicator of completed breastfeeding as the event. This survival object is used throughout the model-building process. We built our model using backward elimination, which means we started with a full model that included all potential variables that could influence the likelihood of completing breastfeeding. We then removed the least significant variables based on AIC from drop1 and p values from the model's summary table each time. The ultimate goal was to keep only the most significant terms in our model. We evaluated the model using AIC, BIC, and global test results, including log-likelihood, Wald test, and Score test. For further improvement, we also explored potential interactions between significant terms. 
+
+
+Our full model with all variables has an AIC value of 10369.51 and a BIC value of 10412.65. From the full model, other race has a p-value of 0.00134, not in poverty has a p-value of 0.02986, not smoking has a p-value of 0.00191, and education level of getting some college has a p-value of 0.02702 according to our findings. Removing these variables will result in higher AIC values. However, the p-values of all the other variables are greater than the significance level of 0.05, and eliminating them will reduce the AIC. 
+After removing insignificant terms repeatedly, the best model's remaining variables include race, poverty, and smoking. The AIC for this model is 10366.19, and the BIC is 10385.37. It is worth noting that, while the year of school appears to be significant in the full model, it is no longer significant when combined with the three other significant variables. 
+
+However, the issue of multicollinearity arose when we examined the correlation among the three most significant variables in the model. We found a significant correlation between each pair of variables related to race, poverty, and smoke when we used Pearson's chi-squared test on a contingency table to assess the correlation between the categorical variables. The chi-squared test p-values for the correlation were 3.407e-05 for poverty and race, 1.009e-10 for race and smoke, and 0.006169 for poverty and smoke. Race and smoke had the lowest p-value, which indicates the strongest association between them. 
+
+As a result, even though this model has the lowest AIC and BIC values, multicollinearity severely restricts its applicability in real-world scenarios. This may result in problems like inflated standard errors and trouble determining the relative contributions of different variables. To address this problem and provide a more accurate analysis, we built three distinct models, each concentrating on one of the correlated variables, which are poverty, smoke, and race. 
+
+
+
 
