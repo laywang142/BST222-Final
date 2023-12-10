@@ -29,7 +29,7 @@ coxb_tbl  %>%
 
 coxc_tbl <- summary(coxc)$coef
 coxc_tbl  %>% 
-  kableExtra::kable(caption = "\\label{tab:smoke_model}Coefficients for Year of School Model",
+  kableExtra::kable(caption = "\\label{tab:school_model}Coefficients for Year of School Model",
                     align = 'c',
                     booktabs = T) %>% 
   kable_styling(latex_options = c("striped", "HOLD_position"), 
