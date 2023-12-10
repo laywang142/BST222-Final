@@ -1,6 +1,39 @@
 # Results  
 
 ## Results Summary  
+```{r,echo=FALSE,message=FALSE,warning=FALSE}
+coxa <- coxph(surv ~ race, data=df)
+coxb <- coxph(surv ~ smoke, data=df)
+```
+
+```{r,results = 'asis',echo=FALSE,message=FALSE,warning=FALSE}
+library(kableExtra)
+coxa_tbl <- summary(coxa)$coef
+coxa_tbl  %>% 
+  kableExtra::kable(caption = "\\label{tab:race_model}Coefficients for Race Model",
+                    align = 'c',
+                    booktabs = T) %>% 
+  kable_styling(latex_options = c("striped", "HOLD_position"), 
+                    full_width = F, font_size = 10
+                    )
+
+
+coxb_tbl <- summary(coxb)$coef
+coxb_tbl  %>% 
+  kableExtra::kable(caption = "\\label{tab:smoke_model}Coefficients for Smoke Model",
+                    align = 'c',
+                    booktabs = T) %>% 
+  kable_styling(latex_options = c("striped", "HOLD_position"), 
+                    full_width = F, font_size = 10
+                    )
+```
+
 
 ## Results Interpretation  
+
+The p-value for other races is 0.00594, which is lower than our significance level of 0.05. The coefficient for raceother is 0.25439, which implies that when holding other variables constant, mothers of other races are approximately exp(0.25439) =1.28967 times more likely to wean than our reference group of white mothers. For the same reason, black mothers are approximately exp(0.11060) =1.11695 times more likely to wean than white mothers. However, the difference between black and white mothers is not as significant as that between mothers of other races and white mothers. 
+
+After that, not smoking has a coefficient of -0.22702. This indicates that when holding other variables constant, mothers who did not smoke during the born of their first child have a hazard approximately exp(-0.22702) = 0.79690 times that of mothers who reported smoking with a p-value of 0.00208. 
+
+We found that when only having poverty in the model, the p-value is 0.379, which is larger than the significance level. Therefore, mothers’ financial situation at the time of their first child's birth is not an important indicator of weaning by itself. 
 
