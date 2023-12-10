@@ -74,6 +74,16 @@ cat(
 
 ```
 
+```{r echo = FALSE, results = 'asis'}
+
+cat(
+  knitr::knit_child('results.Rmd', 
+                    #envir = knit_global(), 
+                    quiet = TRUE)
+  )
+
+```
+
 
 ```{r echo = FALSE, results = 'asis'}
 
