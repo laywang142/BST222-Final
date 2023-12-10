@@ -1,5 +1,40 @@
 # Model Checking
 
 ## Assumption
+The Schoenfeld residual plots and the cox.zph function are used to test the proportional hazards assumption for the Cox regression model. The models with race and smoke have p-values of 0.29 and 0.83, respectively, both of which are greater than 0.05.
+
+```{r resa, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Schoenfeld Residuals for Race"}
+plot(cox.zph(coxa))
+```
+
+```{r resb, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Schoenfeld Residuals for Smoke Status"}
+plot(cox.zph(coxb))
+```
+
+The Schoenfeld residual plots shown in \@ref(fig:resa) and \@ref(fig:resb) do not exhibit any clear signs of non-proportionality because the residuals are randomly distributed around the y=0 lines in both plots. These results suggest that the evidence is insufficient to conclude that the hazards are non-proportional for the two models. 
 
 ## Outliers
+
+## outlier 
+```{r}
+dfb1 <- residuals(coxa,type="dfbeta")
+dfb2 <- residuals(coxb,type="dfbeta")
+```
+
+```{r}
+# dfbeta for race
+plot(dfb1[,1],xlab="Observation Number",ylab="dfbeta for Race", 
+     ylim=c(-.025,.01), pch = 19, cex = 0.5, col = "orange")
+text(dfb1[,1]+.0015, labels = rownames(df), cex = 0.8)
+title("dfbeta Values by Observation Number for Race")
+```
+
+```{r}
+# dfbeta for smoke
+plot(bfeedb.dfb[,1],xlab="Observation Number",ylab="dfbeta for Smoke", 
+     ylim=c(-.02,.03), pch = 19, cex = 0.5, col = "purple")
+text(bfeedb.dfb[,1]+.002, labels = rownames(df), cex = 0.8)
+title("dfbeta Values by Observation Number for Smoke")
+```
+
+Dim for dfb2 is NULL!!!!!!!! WHYYYYYYYYYY
