@@ -19,7 +19,6 @@ The Schoenfeld residual plots shown in Figures \@ref(fig:resa), \@ref(fig:resb),
 
 ## Outliers
 
-## outlier 
 ```{r}
 dfb1 <- residuals(coxa,type="dfbeta")
 dfb2 <- residuals(coxb,type="dfbeta")
