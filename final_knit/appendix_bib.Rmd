@@ -13,6 +13,8 @@ output:
 
 “Kaplan Meier Curve • Simply Explained - DATAtab.” Online Statistics Calculator: Hypothesis Testing, t-Test, Chi-Square, Regression, Correlation, Analysis of Variance, Cluster Analysis, https://datatab.net/tutorial/kaplan-meier-curve. Accessed 4 Dec. 2023.
 
+“Tobacco and E-Cigarettes | Breastfeeding | CDC.” Centers for Disease Control and Prevention, 16 June 2023, https://www.cdc.gov/breastfeeding/breastfeeding-special-circumstances/vaccinations-medications-drugs/tobacco-and-e-cigarettes.html.
+
 Wasie Kasahun, Abebaw, et al. “Predictors of Exclusive Breastfeeding Duration among 6–12 Month Aged Children in Gurage Zone, South Ethiopia: A Survival Analysis | International Breastfeeding Journal | Full Text.” BioMed Central, 21 Apr. 2017, https://internationalbreastfeedingjournal.biomedcentral.com/articles/10.1186/s13006-017-0107-z.
 
 \pagebreak
