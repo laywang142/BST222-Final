@@ -17,7 +17,9 @@ coxa_tbl  %>%
                     full_width = F, font_size = 10
                     )
 
+```
 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 coxb_tbl <- summary(coxb)$coef
 coxb_tbl  %>% 
   kableExtra::kable(caption = "\\label{tab:smoke_model}Coefficients for Smoke Model",
@@ -26,7 +28,9 @@ coxb_tbl  %>%
   kable_styling(latex_options = c("striped", "HOLD_position"), 
                     full_width = F, font_size = 10
                     )
+```
 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 coxc_tbl <- summary(coxc)$coef
 coxc_tbl  %>% 
   kableExtra::kable(caption = "\\label{tab:school_model}Coefficients for Year of School Model",
@@ -36,6 +40,8 @@ coxc_tbl  %>%
                     full_width = F, font_size = 10
                     )
 ```
+
+
 
 
 ## Results Interpretation  
