@@ -193,7 +193,7 @@ df$breastfeeding_status <- factor(df$delta, levels = c(0, 1), labels = c("Not We
 
 
 boxplot(duration ~ breastfeeding_status, data = df,
-        xlab = "Breastfeeding Status", ylab = "Duration",
+        xlab = "Breastfeeding Status", ylab = "Breastfeeding Duration",
         main = "Box Plot of Duration by Breastfeeding Status")
 
 ```
@@ -232,6 +232,6 @@ KMcurves_alcohol <- survfit(surv ~ alcohol, data = df)
 plot(KMcurves_alcohol, col = 1:2, main = "KM Curves for Alcohol" , ylab = "Probability", xlab = "Time (weeks)")
 legend("topright", legend = c("Yes", "No"), col = 1:2, lty = 1)
 
-#survdiff(surv ~ smoke, data = df) #different processes
+#survdiff(surv ~ alcohol, data = df) #different processes
 ```
 

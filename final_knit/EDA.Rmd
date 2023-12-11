@@ -164,3 +164,12 @@ legend("topright", legend = c("noHS", "HSgrad", "comeCollege"), col = 1:3, lty =
 #survdiff(surv ~ yschool, data = df) #some difference
 ```
 Figure \@ref(fig:kmschool), compares the probability a mother does not wean for mothers in different education levels. The curves have a steep decline around the 10-20 week mark indicating that there is a low probability that mothers continue breastfeeding around that time period. Mothers with some college education are more likely to not wean compare to mothers with high school education and mothers with no high school education. For the KM curves for mothers with no high school education and those with only a high school degree have similar likelihoods of not weaning their child till around week 20. Around that time those without a high school education are more likely to wean than those without one.
+
+
+Other exploratory data analysis was preformed but left in the appendix under the second "Additional Plots" as the plots in the main report were deemed the most relevant to the analysis. This section will briefly discuss the figures in the appendix. Figure \@ref(fig:bfdur) showcased the distribution of breastfeeding duration by age which show a close to normal distribution. Figure \@ref(fig:boxbfdur), compared the distribution of breastfeeding duration by breastfeeding completion status. This showed that mothers who have not weaned yet tend to be around 0-25 weeks into breastfeeding. Figure \@ref(fig:histbfage), was a histogram of the mother's ages by breastfeeding status. It showed there was a slight left skew for mothers who have not weaned their child. Figure  \@ref(fig:desage), was density plot if the age of the mothers showed that was a close to normal distribution of the age of the mothers in this study with the average age being around 22. Finally, \@ref(fig:kmalch) is Kaplen Meier Curve for Alcohol Usage. These curvess showed that mothers who drank alcohol had higher probability of weaning faster than mothers who did not consume alcohol.
+
+
+
+
+
+
