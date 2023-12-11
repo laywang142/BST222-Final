@@ -13,3 +13,217 @@ Wasie Kasahun, Abebaw, et al. “Predictors of Exclusive Breastfeeding Duration 
 \pagebreak
 # Appendix  
 
+
+
+### Plots
+
+
+```{r bfeeddens, fig.cap="Density Plot of Breastfeeding Duration", fig.height=3.5, message=FALSE, warning=FALSE, fig.align='center'}
+plot(density(df$duration, na.rm = TRUE), main="Density Plot of Breastfeeding Duration", xlab="Duration (weeks)", ylab="Density", col="green", lwd=2)
+```
+
+
+
+```{r mthage, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Density Plots Mother's Age by Race"}
+
+
+plot(density(bfeed$agemth[bfeed$race == 1], na.rm = TRUE), main="Density Plot of Mother's Age by Race", xlab="Mother's Age", ylab="Density", col="lightblue", lwd=2)
+lines(density(bfeed$agemth[bfeed$race == 2], na.rm = TRUE), col="salmon", lwd=2)
+lines(density(bfeed$agemth[bfeed$race == 3], na.rm = TRUE), col="lightgreen", lwd=2)
+legend("topright", legend=c("White", "Black", "Other"), col=c("lightblue", "salmon", "lightgreen"), lwd=2)
+
+```
+
+
+
+
+
+```{r edubar, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Bar Plot on Education proportion By Breastfeeding Status"}
+# barplot
+barplot(prop.table(table(df$yschool, df$delta), 2), 
+        #main="Education Level Distribution within Breastfeeding Completion Status", 
+        xlab="Breastfeeding Completion", 
+        ylab="Proportion", 
+        col=c("lightblue", "salmon", "lightgreen"),
+        names.arg=c("Not Weaned", "Weaned"),
+        beside=TRUE
+    )
+legend("topright", 
+  legend = c( "No High School", "HS Grad", "Some College"), 
+  fill = c("lightblue", "salmon", "lightgreen"), 
+  ncol = 2, 
+  bty = "n", 
+  cex = 0.75)
+```
+
+
+
+
+```{r catvarbox, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Box Plot for Categorical Variables"}
+par(mfrow=c(1,2)) 
+
+
+
+# Boxplot for Breastfeeding Duration by Poverty
+boxplot(df$duration ~ df$poverty, 
+        main="Breastfeeding Duration by Poverty", 
+        ylab="Duration (weeks)", 
+        xlab="Poverty", 
+        col=c("lightblue", "salmon"),
+        names=c("In Poverty", "Not in Poverty"), 
+        cex.main=0.9) # 
+
+# Boxplot for Breastfeeding Duration by Smoking
+boxplot(df$duration ~ df$smoke, 
+        main="Breastfeeding Duration by Smoking", 
+        ylab="Duration (weeks)", 
+        xlab="Smoke", 
+        col=c("lightgreen", "yellow"),
+        names=c("Smoker", "Non-Smoker"),
+        cex.main=0.9) #
+```
+
+
+```{r catvarbox2, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Box Plot for Categorical Variables"}
+par(mfrow=c(1,2)) 
+# Boxplot for Breastfeeding Duration by Alcohol Use
+boxplot(df$duration ~ df$alcohol, 
+        main="Breastfeeding Duration by Alcohol Use", 
+        ylab="Duration (weeks)", 
+        xlab="Alcohol", 
+        col=c("pink", "gray"),
+        names=c("Alcohol Use", "No Alcohol"),
+        cex.main=0.9) # 
+
+# Boxplot for Breastfeeding Duration by Prenatal Care
+boxplot(df$duration ~ df$pc3mth, 
+        main="Breastfeeding Duration by Prenatal Care", 
+        ylab="Duration (weeks)", 
+        xlab="Prenatal Care after 3rd Month", 
+        col=c("orange", "purple"),
+        names=c("Prenatal Care", "No Prenatal Care"),
+
+        cex.main=0.9, cex.axis=.8) # 
+
+
+```
+
+
+
+```{r boxbfeedstat, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Box Plot of Race Distribution by Breastfeeding Status"}
+barplot(prop.table(table(df$race, df$delta), 2), 
+        main="Race Distribution within Breastfeeding Completion Status", 
+        xlab="Breastfeeding Completion", 
+        ylab="Proportion", 
+        col=c("lightblue", "salmon", "lightgreen"), 
+        names.arg=c("Not Weaned", "Weaned"),
+        cex.main=0.9,
+        beside=FALSE)
+
+legend("bottomright", 
+  legend =c("White", "Black", "Other"),
+  fill = c("lightblue", "salmon", "lightgreen"),
+  bg="white",
+  ncol = 1, 
+  bty = "o", 
+  cex = 0.75)
+```
+
+
+
+
+
+```{r kmrace, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="KM Curve - Race"}
+
+# check for stratification in race
+KMcurves_race <- survfit(surv ~ race, data = df)
+plot(KMcurves_race, col = 1:3, main = "KM Curves for Races", ylab = "Probability", xlab = "Time (weeks)")
+legend("topright", legend = c("White", "Black", "Other"), col = 1:3, lty = 1)
+
+#survdiff(surv ~ race, data = df) #different processes
+```
+
+
+
+
+```{r kmpoverty, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="KM Curve - Poverty"}
+KMcurves_poverty <- survfit(surv ~ poverty, data = df)
+plot(KMcurves_poverty, col = 1:2, main = "KM Curves for Poverty", ylab = "Probability", xlab = "Time (weeks)")
+legend("topright", legend = c("Yes", "No"), col = 1:2, lty = 1)
+
+#survdiff(surv ~ poverty, data = df) #no difference
+```
+
+
+
+```{r kmsmoke, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="KM Curve - Smoke"}
+KMcurves_smoke <- survfit(surv ~ smoke, data = df)
+plot(KMcurves_smoke, col = 1:2, main = "KM Curves for Smoke" , ylab = "Probability", xlab = "Time (weeks)")
+legend("topright", legend = c("Yes", "No"), col = 1:2, lty = 1)
+
+#survdiff(surv ~ smoke, data = df) #different processes
+```
+
+
+```{r kmschool, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="KM Curve - Education"}
+KMcurves_yschool <- survfit(surv ~ yschool, data = df)
+plot(KMcurves_yschool, col = 1:3, main = "KM Curves for Education" ,ylab = "Probability", xlab = "Time (weeks)")
+legend("topright", legend = c("noHS", "HSgrad", "comeCollege"), col = 1:3, lty = 1)
+
+#survdiff(surv ~ yschool, data = df) #some difference
+```
+
+### Additonal Plots
+
+
+
+```{r bfdur, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Scatter Plot of Age Vs Duration"}
+plot(df$agemth, df$duration, main="Scatter Plot of Age vs. Breastfeeding Duration", xlab="Mother's Age", ylab="Breastfeeding Duration (weeks)", pch=19, col="blue")
+```
+
+
+```{r boxbfdur, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Box Plot of Duration by Breastfeeding Status"}
+# Creating a new factor variable with descriptive labels
+df$breastfeeding_status <- factor(df$delta, levels = c(0, 1), labels = c("Not Weaned", "Weaned"))
+
+
+boxplot(duration ~ breastfeeding_status, data = df,
+        xlab = "Breastfeeding Status", ylab = "Duration",
+        main = "Box Plot of Duration by Breastfeeding Status")
+
+```
+
+
+```{r histbfage, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Histogram of Age by Breastfeeding Status"}
+
+# Histogram for "Not Breastfeeding"
+hist(df$agemth[df$delta == 0], col = rgb(1, 0, 0, 0.5),
+     xlim = range(df$agemth),
+     main = "Histogram of Age of Mother by Breastfeeding Status",
+     xlab = "Age of Mother")
+
+# Histogram for "Breastfeeding" 
+hist(df$agemth[df$delta == 1], col = rgb(0, 0, 1, 0.5), 
+     add = TRUE)
+
+legend("topright", legend = c("Not Weaned", "Weaned"), 
+       col = c(rgb(1, 0, 0, 0.5), rgb(0, 0, 1, 0.5)), pch = 15)
+
+```
+
+```{r desage, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Density Plots for Mothers Age}
+
+
+plot(density(df$agemth, na.rm = TRUE), main="Density Plot of Mother's Age", xlab="Mother's Age", ylab="Density", col="blue", lwd=2)
+
+```
+
+
+```{r kmalch, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="KM Curve - Alcohol"}
+KMcurves_alcohol <- survfit(surv ~ alcohol, data = df)
+plot(KMcurves_alcohol, col = 1:2, main = "KM Curves for Alcohol" , ylab = "Probability", xlab = "Time (weeks)")
+legend("topright", legend = c("Yes", "No"), col = 1:2, lty = 1)
+
+#survdiff(surv ~ smoke, data = df) #different processes
+```
+
