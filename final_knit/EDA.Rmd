@@ -6,7 +6,7 @@
 plot(density(df$duration, na.rm = TRUE), main="Density Plot of Breastfeeding Duration", xlab="Duration (weeks)", ylab="Density", col="green", lwd=2)
 ```
 
-Figure \@ref(fig:bfeeddens) is a density plot shows that almost all of the mothers in the study only breastfeed for no more than about 50 weeks, which is about a year. On the graph there is a spike at around 10-12 weeks indicating that the majority of mothers only breastfeed for about a few months.
+Figure \@ref(fig:bfeeddens) is a density plot shows that almost all of the mothers in the study only breastfeed for no more than about 50 weeks, which is about a year. On the graph there is a spike at around 10-12 weeks indicating that the majority of mothers only breastfeed for about a few months before weaning.
 
 
 
@@ -20,7 +20,7 @@ legend("topright", legend=c("White", "Black", "Other"), col=c("lightblue", "salm
 
 ```
 
-Figure \@ref(fig:mthage) shows the density of the mothers' age by race demonstrates that black mothers and mothers of other races tend to have their first kids younger than white mothers.
+Figure \@ref(fig:mthage) shows the density of the mothers' age by race demonstrates that black mothers and mothers of other races tend to have their first kids younger than white mothers. Black mothers aand mothers of other races tend to have their first child around 18-20 while white mothers had their first child around 21-22 years of age.
 
 
 ```{r edubar, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Bar Plot on Education proportion By Breastfeeding Status"}
@@ -41,7 +41,7 @@ legend("topright",
   cex = 0.75)
 ```
 
-Figure \@ref(fig:edubar) compares the group of mothers who weaned their babies versus those who did not wean their babies. Those who didnn't wean their children had higher proportion of mothers who went some college in their education background. Mothers who weaned their babies had a higher proportion of those who did not finish high school. 
+Figure \@ref(fig:edubar) compares the group of mothers who weaned their babies versus those who did not wean their babies. The group of mother who haven't wean their child had a higher proportion of mothers who had some college in their education background. Mothers who weaned their babies had a higher proportion of those who did not finish high school. Also there was an increase in the proportion of mothers who have not finished high school in the group who have weaned their child compared to the group that have not weaned.
 
 ```{r catvarbox, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="Box Plot for Categorical Variables"}
 par(mfrow=c(1,2)) 
@@ -93,10 +93,10 @@ boxplot(df$duration ~ df$pc3mth,
 ```
 
 
-In figure Figure \@ref(fig:catvarbox), the  first box plot shows that the breastfeeding duration for those in poverty compared to those who are not in poverty are similar but those in poverty have a slightly lower and narrower breastfeeding duration range. The second box plot shows that mothers who smoked had a sligtly shorter breastfeeding duration and that the range for breastfeeding duration is also narrower compared to mothers who did not smoke.
+In figure Figure \@ref(fig:catvarbox), the  first box plot shows that the breastfeeding duration for those in poverty compared to those who are not in poverty are similar, but those in poverty have a slightly shorter and narrower breastfeeding duration range. The second box plot shows that mothers who smoke had a slightly shorter breastfeeding duration and that the range for breastfeeding duration is also narrower compared to mothers who did not smoke.
 
-In figure \@ref(fig:catvarbox2), the first box plot, demonstrates that mothers who use alcohol have a narrower breastfeeding distribution with most mothers breastfeeding betwween 0 and under 50 weeks. Mothers who did not consume alcohol tend to breastfeed between 0 and 52 weeks. Those mothers who consumed alcohol tend breastfeed for a shorter amount of time compared to those who did not.
-The second box plot showed that the breastfeeding duration distribution of mothers who had prenatal care compared to those are very similar, with majority of both groups mainly brestfeeding  for 0 weeks to 50 weeks.
+In figure \@ref(fig:catvarbox2), the first box plot, demonstrates that mothers who use alcohol have a narrower breastfeeding distribution with most mothers breastfeeding between 1 week and under 50 weeks. Mothers who did not consume alcohol tend to breastfeed between 1 and 52 weeks. Those mothers who consumed alcohol tend breastfeed for a shorter amount of time compared to those who did not.
+The second box plot showed that the breastfeeding duration distribution of mothers who had prenatal care compared to those who did not have prenatal are very similar, with majority of both groups mainly breastfeeding for 1 week to 50 weeks.
 
 
 
@@ -119,7 +119,7 @@ legend("bottomright",
   bty = "o", 
   cex = 0.75)
 ```
-Figure \@ref(fig:boxbfeedstat) compares the proportion of each race by breastfeeding status. The group of mothers who were able to wean have a high proportion of mothers of other race and black mothers compared to the group that did not wean.
+Figure \@ref(fig:boxbfeedstat) compares the proportion of each race by breastfeeding status. The group of mothers who were able to wean have a higher proportion of mothers of other races and black mothers compared to the group of mothers that did not wean.
 
 
 ```{r kmrace, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="KM Curve - Race"}
@@ -132,7 +132,7 @@ legend("topright", legend = c("White", "Black", "Other"), col = 1:3, lty = 1)
 #survdiff(surv ~ race, data = df) #different processes
 ```
 
-Figure \@ref(fig:kmrace) compares the probability a mother doesn't wean for each of the different race categories. For each race, there is a steep decline around the 10-20 week mark indicating many mothers stop breastfeeding around that time. Additionally, mothers of other race tend to wean sooner then black mothers and white mothers. Black mothers also weaned faster than white mothers.
+Figure \@ref(fig:kmrace) compares the probability a mother doesn't wean for each of the different race categories. For each race, there is a steep decline around the 10-20 week mark indicating many mothers stop breastfeeding around that time. Additionally, mothers of other races tend to wean sooner then black mothers and white mothers. Also, black mothers also weaned slightly faster than white mothers.
 
 
 ```{r kmpoverty, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="KM Curve - Poverty"}
@@ -143,7 +143,7 @@ legend("topright", legend = c("Yes", "No"), col = 1:2, lty = 1)
 #survdiff(surv ~ poverty, data = df) #no difference
 ```
 
-Figure \@ref(fig:kmpoverty) compares the probability a mother doesn't wean depending if they are in poverty or not. For both groups, there is a steep decline around the 10-20 week mark indicating many mothers stop breastfeeding around that time. The Kaplen Meier curves are similar and do overlap til around week 30 where it can be seen that mother's who are not in poverty have a higher probability of weaning their child.
+Figure \@ref(fig:kmpoverty) compares the probability a mother doesn't wean depending if they are in poverty or not. For both groups, there is a steep decline around the 10-20 week mark indicating many mothers stop breastfeeding around that time. The Kaplen Meier curves are similar and do overlap until around week 30 where it can be seen that mother's who are not in poverty have a higher probability of weaning their child.
 
 ```{r kmsmoke, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="KM Curve - Smoke"}
 KMcurves_smoke <- survfit(surv ~ smoke, data = df)
@@ -153,7 +153,7 @@ legend("topright", legend = c("Yes", "No"), col = 1:2, lty = 1)
 #survdiff(surv ~ smoke, data = df) #different processes
 ```
 
-Figure \@ref(fig:kmsmoke), compares the probability a mother does not wean for mothers who smoke and mothers who do not smoke. The curves have a steep decline around the 10-20 week mark indicating that many mothers stop breastfeeding around that time period. The Kaplen Meier curves indicate that there is a higher probability that mothers who smoke will wean compare to those who do not smoke.
+Figure \@ref(fig:kmsmoke), compares the probability a mother does not wean for mothers who smoke and mothers who do not smoke. The curves have a steep decline around the 10-20 week mark indicating that many mothers stop breastfeeding around that time period. The Kaplen Meier curves indicate that there is a higher probability that mothers who smoke will wean sooner compare to those who do not smoke.
 
 
 ```{r kmschool, fig.align='center', fig.height=3.5, message=FALSE, warning=FALSE, fig.cap="KM Curve - Education"}
@@ -163,10 +163,10 @@ legend("topright", legend = c("noHS", "HSgrad", "comeCollege"), col = 1:3, lty =
 
 #survdiff(surv ~ yschool, data = df) #some difference
 ```
-Figure \@ref(fig:kmschool), compares the probability a mother does not wean for mothers in different education levels. The curves have a steep decline around the 10-20 week mark indicating that there is a low probability that mothers continue breastfeeding around that time period. Mothers with some college education are more likely to not wean compare to mothers with high school education and mothers with no high school education. For the KM curves for mothers with no high school education and those with only a high school degree have similar likelihoods of not weaning their child till around week 20. Around that time those without a high school education are more likely to wean than those without one.
+Figure \@ref(fig:kmschool), compares the probability a mother does not wean for mothers in different education levels. The curves have a steep decline around the 10-20 week mark indicating that there is a lower probability that mothers continue breastfeeding around that time period. Mothers with some college education are more likely to not wean compare to mothers with only a  high school education and mothers with no high school education. For the KM curves for mothers with no high school education and those with only a high school degree have similar likelihoods of not weaning their child till around week 20. Around that time those without a high school education are more likely to wean than those without one.
 
 
-Other exploratory data analysis was preformed but left in the appendix under the second "Additional Plots" as the plots in the main report were deemed the most relevant to the analysis. This section will briefly discuss the figures in the appendix. Figure \@ref(fig:bfdur) showcased the distribution of breastfeeding duration by age which show a close to normal distribution. Figure \@ref(fig:boxbfdur), compared the distribution of breastfeeding duration by breastfeeding completion status. This showed that mothers who have not weaned yet tend to be around 0-25 weeks into breastfeeding. Figure \@ref(fig:histbfage), was a histogram of the mother's ages by breastfeeding status. It showed there was a slight left skew for mothers who have not weaned their child. Figure  \@ref(fig:desage), was density plot if the age of the mothers showed that was a close to normal distribution of the age of the mothers in this study with the average age being around 22. Finally, \@ref(fig:kmalch) is Kaplen Meier Curve for Alcohol Usage. These curvess showed that mothers who drank alcohol had higher probability of weaning faster than mothers who did not consume alcohol.
+Other exploratory data analysis was preformed but left in the appendix under the second "Additional Plots" as the plots in the main report were deemed the most relevant to the analysis. This section will briefly discuss the figures in the appendix. Figure \@ref(fig:bfdur) showcased the distribution of breastfeeding duration by age which show a close to normal distribution. Figure \@ref(fig:boxbfdur), compared the distribution of breastfeeding duration by breastfeeding completion status. This showed that mothers who have not weaned yet tend to be around 0-25 weeks into breastfeeding. Figure \@ref(fig:histbfage), was a histogram of the mother's ages by breastfeeding status. It showed there was a slight left skew for mothers who have not weaned their child. Figure  \@ref(fig:desage), was density plot of the age of the mothers showed that was a close to a normal distribution of the age of the mothers in this study with the average age being around 22. Finally, figure \@ref(fig:kmalch) is a Kaplen Meier Curve for Alcohol Usage. These curves showed that mothers who drank alcohol had higher probability of weaning faster than mothers who did not consume alcohol.
 
 
 
