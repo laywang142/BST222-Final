@@ -78,7 +78,17 @@ cat(
 
 cat(
   knitr::knit_child('results.Rmd', 
-                    #envir = knit_global(), 
+                    envir = knit_global(), 
+                    quiet = TRUE)
+  )
+
+```
+
+```{r echo = FALSE, results = 'asis'}
+
+cat(
+  knitr::knit_child('Model_Checking.Rmd', 
+                    envir = knit_global(), 
                     quiet = TRUE)
   )
 

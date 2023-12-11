@@ -15,7 +15,7 @@ plot(cox.zph(coxb))
 plot(cox.zph(coxc))
 ```
 
-The Schoenfeld residual plots shown in \@ref(fig:resa), \@ref(fig:resb), and \@ref(fig:resc) do not exhibit any clear signs of non-proportionality because the residuals are randomly distributed around the y=0 lines in both plots. These results suggest that the evidence is insufficient to conclude that the hazards are non-proportional for the two models. 
+The Schoenfeld residual plots shown in Figures \@ref(fig:resa), \@ref(fig:resb), and \@ref(fig:resc) do not exhibit any clear signs of non-proportionality because the residuals are randomly distributed around the y=0 lines in both plots. These results suggest that the evidence is insufficient to conclude that the hazards are non-proportional for the two models. 
 
 ## Outliers
 
@@ -51,29 +51,15 @@ text(dfb3[,1]+.0015, labels = rownames(df), cex = 0.8)
 title("dfbeta Values by Observation Number for Year of School")
 ```
 
-Dim for dfb2 is NULL!!!!!!!! WHYYYYYYYYYY
-
-
 We used DFBETA to assess how the exclusion of a specific data point impacts the regression coefficients. The larger the absolute value of DFBETA  is, the more influential the point becomes and the greater the probability that it is an outlier. 
 
-Observations 18, 353, 489, 518, 594, 684, 689, and 849 in our analysis deviate from the majority of the data points, indicating that these observations are likely to be outliers and need further investigation. The following table displays the detailed information of these unusual observations and will be discussed later. 
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-coxa_tbl <- summary(coxa)$coef
-coxa_tbl  %>% 
-  kableExtra::kable(caption = "\\label{tab:race_model}Coefficients for Race Model",
-                    align = 'c',
-                    booktabs = T) %>% 
-  kable_styling(latex_options = c("striped", "HOLD_position"), 
-                    full_width = F, font_size = 10
-                    )
-```
+Observations 18, 353, 489, 518, 594, 684, 689, and 849 in our analysis deviate from the majority of the data points, indicating that these observations are likely to be outliers and need further investigation. Table \@ref(tab:unusual) displays the detailed information of these unusual observations and will be discussed later. 
 
 ```{r,results = 'asis',echo=FALSE,message=FALSE,warning=FALSE}
 outlier = c(18, 353, 489, 518, 594, 684, 689, 849)
 table_out <- df[outlier, ]
 table_out  %>% 
-  kableExtra::kable(caption = "\\label{tab:race_model}Unusual Observations Detail",
+  kableExtra::kable(caption = "\\label{tab:unusual}Unusual Observations Detail",
                     align = 'c',
                     booktabs = T) %>% 
   kable_styling(latex_options = c("striped", "HOLD_position"), 
