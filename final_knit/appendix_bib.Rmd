@@ -235,3 +235,5 @@ legend("topright", legend = c("Yes", "No"), col = 1:2, lty = 1)
 #survdiff(surv ~ alcohol, data = df) #different processes
 ```
 
+## Code:
+https://github.com/laywang142/BST222-Final/tree/final_report/final_knit
